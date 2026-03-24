@@ -734,8 +734,10 @@ a {
 /* RESPONSIVE */
 @media (max-width: 900px) {
   .contact-grid {
-    grid-template-columns: 1fr;
-  }
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: flex-start;
 }
 .link-card {
   display: block;
