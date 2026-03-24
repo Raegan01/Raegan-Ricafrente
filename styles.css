@@ -737,3 +737,13 @@ a {
     grid-template-columns: 1fr;
   }
 }
+.link-card {
+  display: block;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.link-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(159, 208, 255, 0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
