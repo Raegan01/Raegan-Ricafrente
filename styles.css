@@ -613,69 +613,86 @@ a {
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  align-items: stretch;
+  gap: 36px;
+  align-items: start;
 }
 
-/* LEFT SIDE */
-.contact-info {
-  padding: 30px;
+.contact-info,
+.contact-form-wrap {
+  padding: 34px;
   border-radius: 28px;
-  background: linear-gradient(135deg, rgba(159,208,255,0.08), rgba(0,0,0,0.25));
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
   border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.22);
 }
 
-.contact-info h2 {
-  font-size: 36px;
-  margin-bottom: 12px;
-}
-
-.contact-desc {
-  color: #cfe3ff;
-  margin-bottom: 24px;
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .contact-card-box {
-  padding: 18px;
-  border-radius: 18px;
-  margin-bottom: 14px;
+  display: block;
+  width: 100%;
+  padding: 24px;
+  border-radius: 22px;
   background: rgba(255,255,255,0.05);
   border: 1px solid rgba(255,255,255,0.08);
+  text-decoration: none;
+  transition: 0.3s ease;
 }
 
 .contact-card-box span {
+  display: inline-block;
+  margin-bottom: 10px;
   font-size: 12px;
   text-transform: uppercase;
-  color: #9fd0ff;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
+  color: #a9d0ff;
+  font-weight: 700;
 }
 
 .contact-card-box h4 {
-  margin: 6px 0;
-  font-size: 16px;
+  margin: 0 0 8px;
+  font-size: 18px;
+  color: #ffffff;
 }
 
 .contact-card-box p {
-  font-size: 13px;
-  color: #bcd4f5;
+  margin: 0;
+  color: #bfd3ec;
+  font-size: 15px;
 }
 
-/* RIGHT SIDE */
-.contact-form-wrap {
-  padding: 30px;
-  border-radius: 28px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+.link-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(159, 208, 255, 0.35);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+}
+
+.contact-inline-link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.contact-inline-link:hover {
+  color: #9fd0ff;
 }
 
 .contact-form-wrap h3 {
-  font-size: 22px;
+  font-size: 24px;
+  margin-bottom: 8px;
 }
 
 .form-sub {
-  color: #9fb8d9;
-  margin-bottom: 20px;
+  color: #aebfd7;
+  margin-bottom: 24px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
 }
 
 .form-group {
@@ -684,76 +701,62 @@ a {
 
 .form-group label {
   display: block;
-  font-size: 13px;
-  margin-bottom: 6px;
-  color: #cfe3ff;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #dce9f8;
+  font-weight: 600;
 }
 
 .form-group input,
 .form-group textarea {
   width: 100%;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 16px 18px;
+  border-radius: 16px;
   border: 1px solid rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.04);
-  color: #fff;
-  font-size: 14px;
+  background: rgba(255,255,255,0.05);
+  color: #ffffff;
+  font-size: 15px;
 }
 
 .form-group textarea {
-  min-height: 120px;
-  resize: none;
+  min-height: 150px;
+  resize: vertical;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #9fd0ff;
+  border-color: #8dbfff;
 }
 
-/* BUTTON */
 .full-width {
   width: 100%;
-  margin-top: 10px;
-  background: linear-gradient(135deg, #7aaeff, #6f5bff);
+  margin-top: 8px;
   border: none;
+  background: linear-gradient(135deg, #8db6ff, #7062ff);
 }
 
-/* EMAIL TEXT */
 .direct-email {
-  margin-top: 14px;
-  font-size: 13px;
-  color: #9fb8d9;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #aebfd7;
 }
 
 .direct-email a {
   color: #ffffff;
   font-weight: 600;
   text-decoration: none;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.22);
   transition: 0.3s ease;
 }
 
 .direct-email a:hover {
   color: #9fd0ff;
-  border-bottom: 1px solid #9fd0ff;
+  border-bottom-color: #9fd0ff;
 }
 
-/* RESPONSIVE */
 @media (max-width: 900px) {
   .contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  align-items: flex-start;
+    grid-template-columns: 1fr;
+  }
 }
-.link-card {
-  display: block;
-  text-decoration: none;
-  transition: 0.3s ease;
-}
-
-.link-card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(159, 208, 255, 0.4);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
