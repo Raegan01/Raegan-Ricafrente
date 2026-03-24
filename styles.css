@@ -610,3 +610,130 @@ a {
   display: block;
   object-fit: contain;
 }
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  align-items: stretch;
+}
+
+/* LEFT SIDE */
+.contact-info {
+  padding: 30px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, rgba(159,208,255,0.08), rgba(0,0,0,0.25));
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.contact-info h2 {
+  font-size: 36px;
+  margin-bottom: 12px;
+}
+
+.contact-desc {
+  color: #cfe3ff;
+  margin-bottom: 24px;
+}
+
+.contact-card-box {
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 14px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.contact-card-box span {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #9fd0ff;
+  letter-spacing: 0.1em;
+}
+
+.contact-card-box h4 {
+  margin: 6px 0;
+  font-size: 16px;
+}
+
+.contact-card-box p {
+  font-size: 13px;
+  color: #bcd4f5;
+}
+
+/* RIGHT SIDE */
+.contact-form-wrap {
+  padding: 30px;
+  border-radius: 28px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.contact-form-wrap h3 {
+  font-size: 22px;
+}
+
+.form-sub {
+  color: #9fb8d9;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 6px;
+  color: #cfe3ff;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #fff;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #9fd0ff;
+}
+
+/* BUTTON */
+.full-width {
+  width: 100%;
+  margin-top: 10px;
+  background: linear-gradient(135deg, #7aaeff, #6f5bff);
+  border: none;
+}
+
+/* EMAIL TEXT */
+.direct-email {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #9fb8d9;
+}
+
+.direct-email span {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+}
