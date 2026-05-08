@@ -29,21 +29,3 @@ const revealOnScroll = () => {
 
 window.addEventListener("scroll", revealOnScroll);
 window.addEventListener("load", revealOnScroll);
-
-const parallaxImages = document.querySelectorAll(".poster-parallax img");
-
-function posterParallax() {
-  parallaxImages.forEach((img) => {
-    const wrapper = img.parentElement;
-    const rect = wrapper.getBoundingClientRect();
-    const windowHeight = window.innerHeight;
-
-    if (rect.top < windowHeight && rect.bottom > 0) {
-      const progress = rect.top / windowHeight;
-      img.style.transform = `translateY(${progress * -55}px)`;
-    }
-  });
-}
-
-window.addEventListener("scroll", posterParallax);
-window.addEventListener("load", posterParallax);
