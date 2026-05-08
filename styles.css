@@ -784,19 +784,20 @@ a {
 .poster-carousel {
   position: relative;
   width: 100%;
-  padding: 0 70px;
+  padding: 18px 70px 28px;
 }
 
 .poster-carousel-viewport {
   overflow: hidden;
   width: 100%;
+  padding: 18px 0 28px;
 }
 
 .poster-carousel-track {
   display: flex;
   gap: 22px;
   width: max-content;
-  align-items: flex-start;
+  align-items: stretch;
   transition: transform 0.45s ease;
 }
 
@@ -807,12 +808,13 @@ a {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 50px rgba(0,0,0,0.18);
-  transition: 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: visible;
 }
 
 .graphic-card:hover {
-  transform: translateY(-4px);
   border-color: rgba(159,208,255,0.35);
+  box-shadow: 0 22px 60px rgba(0,0,0,0.24);
 }
 
 .poster-card img {
@@ -878,7 +880,7 @@ a {
 
 @media (max-width: 640px) {
   .poster-carousel {
-    padding: 0 44px;
+    padding: 18px 44px 28px;
   }
 
   .graphic-card {
