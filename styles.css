@@ -797,19 +797,20 @@ a {
   display: flex;
   gap: 22px;
   width: max-content;
-  align-items: stretch;
+  align-items: flex-start;
   transition: transform 0.45s ease;
 }
 
 .graphic-card {
   flex: 0 0 360px;
+  height: fit-content;
   padding: 14px;
   border-radius: 24px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 50px rgba(0,0,0,0.18);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  overflow: visible;
+  overflow: hidden;
 }
 
 .graphic-card:hover {
