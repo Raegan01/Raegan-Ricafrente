@@ -781,6 +781,16 @@ a {
   }
 }
 
+.poster-carousel-shell {
+  width: 100%;
+  padding: 28px;
+  border-radius: 32px;
+  background: rgba(255,255,255,0.035);
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 22px 70px rgba(0,0,0,0.22);
+  overflow: hidden;
+}
+
 .poster-carousel {
   position: relative;
   width: 100%;
@@ -880,6 +890,11 @@ a {
 }
 
 @media (max-width: 640px) {
+  .poster-carousel-shell {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
   .poster-carousel {
     padding: 18px 44px 28px;
   }
