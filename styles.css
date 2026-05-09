@@ -971,8 +971,7 @@ a {
   background: rgba(255,255,255,0.035);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 22px 70px rgba(0,0,0,0.22);
-  overflow-x: auto;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 .ab-testing-row {
@@ -982,11 +981,16 @@ a {
   gap: 22px;
   align-items: flex-start;
   width: max-content;
+  animation: abAutoScroll 28s linear infinite;
+}
+
+.ab-testing-row:hover {
+  animation-play-state: paused;
 }
 
 .ab-card {
-  flex: 0 0 300px;
-  width: 300px;
+  flex: 0 0 360px;
+  width: 360px;
   height: fit-content;
   padding: 14px;
   border-radius: 24px;
@@ -1007,9 +1011,30 @@ a {
 .ab-card span {
   display: inline-block;
   color: #9fd0ff;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+@keyframes abAutoScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - 11px));
+  }
+}
+
+@media (max-width: 640px) {
+  .ab-testing-shell {
+    padding: 18px;
+    border-radius: 24px;
+  }
+
+  .ab-card {
+    flex-basis: 280px;
+    width: 280px;
+  }
 }
