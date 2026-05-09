@@ -981,7 +981,7 @@ a {
   gap: 22px;
   align-items: flex-start;
   width: max-content;
-  animation: abAutoScroll 28s linear infinite;
+  animation: abAutoScroll 32s linear infinite;
 }
 
 .ab-testing-row:hover {
