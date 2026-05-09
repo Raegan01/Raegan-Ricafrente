@@ -977,26 +977,23 @@ a {
 
 .ab-testing-row {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 22px;
   align-items: flex-start;
   width: max-content;
 }
 
 .ab-card {
-  flex: 0 0 360px;
+  flex: 0 0 300px;
+  width: 300px;
   height: fit-content;
   padding: 14px;
   border-radius: 24px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
   box-shadow: 0 18px 50px rgba(0,0,0,0.18);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
-}
-
-.ab-card:hover {
-  border-color: rgba(159,208,255,0.35);
-  box-shadow: 0 22px 60px rgba(0,0,0,0.24);
 }
 
 .ab-card img {
@@ -1005,39 +1002,14 @@ a {
   display: block;
   border-radius: 18px;
   margin-bottom: 12px;
-  background: rgba(255,255,255,0.04);
 }
 
 .ab-card span {
   display: inline-block;
   color: #9fd0ff;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-}
-
-.ab-testing-shell::-webkit-scrollbar {
-  height: 8px;
-}
-
-.ab-testing-shell::-webkit-scrollbar-track {
-  background: rgba(255,255,255,0.06);
-  border-radius: 999px;
-}
-
-.ab-testing-shell::-webkit-scrollbar-thumb {
-  background: rgba(159,208,255,0.45);
-  border-radius: 999px;
-}
-
-@media (max-width: 640px) {
-  .ab-testing-shell {
-    padding: 18px;
-    border-radius: 24px;
-  }
-
-  .ab-card {
-    flex-basis: 280px;
-  }
+  white-space: nowrap;
 }
