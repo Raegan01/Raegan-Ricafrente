@@ -1038,3 +1038,56 @@ a {
     width: 280px;
   }
 }
+
+.portfolio-intro {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 36px;
+  align-items: center;
+  margin-bottom: 70px;
+  min-height: 320px;
+}
+
+.portfolio-name h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  line-height: 1;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.portfolio-name p {
+  margin-top: 8px;
+  font-size: clamp(13px, 1.6vw, 16px);
+  color: #d7e6f7;
+}
+
+.portfolio-title-image {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.portfolio-title-image img {
+  width: min(100%, 720px);
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+@media (max-width: 900px) {
+  .portfolio-intro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 50px;
+    min-height: auto;
+  }
+
+  .portfolio-title-image {
+    justify-content: flex-start;
+  }
+
+  .portfolio-title-image img {
+    width: 100%;
+  }
+}
