@@ -1085,3 +1085,11 @@ a {
   display: block;
   object-fit: contain;
 }
+
+.portfolio-contact-image {
+  width: min(100%, 360px);
+  height: auto;
+  display: block;
+  margin-top: 22px;
+  object-fit: contain;
+}
