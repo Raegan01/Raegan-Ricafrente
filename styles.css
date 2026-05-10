@@ -1051,7 +1051,7 @@ a {
 .portfolio-name {
   padding-top: 0;
   align-self: start;
-  transform: translateY(4px);
+  transform: translateY(22px);
 }
 
 .portfolio-name h2 {
@@ -1076,7 +1076,6 @@ a {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
-  margin-top: 0;
 }
 
 .portfolio-title-image img {
@@ -1086,10 +1085,61 @@ a {
   object-fit: contain;
 }
 
+.portfolio-contact-image-wrap {
+  position: relative;
+  width: min(100%, 430px);
+  margin-top: 24px;
+}
+
 .portfolio-contact-image {
-  width: min(100%, 360px);
+  width: 100%;
   height: auto;
   display: block;
-  margin-top: 22px;
-  object-fit: contain;
+}
+
+.portfolio-contact-text {
+  position: absolute;
+  top: 22px;
+  left: 62px;
+  display: flex;
+  flex-direction: column;
+  gap: 43px;
+}
+
+.portfolio-contact-text p {
+  color: #ffffff;
+  font-size: clamp(16px, 1.4vw, 22px);
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .portfolio-intro {
+    grid-template-columns: 1fr;
+    gap: 28px;
+    margin-bottom: 50px;
+    min-height: auto;
+  }
+
+  .portfolio-name {
+    transform: translateY(0);
+  }
+
+  .portfolio-name h2,
+  .portfolio-name p {
+    white-space: normal;
+  }
+
+  .portfolio-title-image {
+    justify-content: flex-start;
+  }
+
+  .portfolio-title-image img {
+    width: 100%;
+  }
+
+  .portfolio-contact-image-wrap {
+    width: min(100%, 380px);
+  }
 }
