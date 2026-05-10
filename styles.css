@@ -1051,7 +1051,7 @@ a {
 .portfolio-name {
   padding-top: 0;
   align-self: start;
-  transform: translateY(-6px);
+  transform: translateY(-16px);
 }
 
 .portfolio-name h2 {
