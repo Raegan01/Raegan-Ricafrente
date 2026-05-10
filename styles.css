@@ -1087,7 +1087,7 @@ a {
 
 .portfolio-contact-image-wrap {
   position: relative;
-  width: min(100%, 430px);
+  width: 430px;
   margin-top: 24px;
 }
 
@@ -1099,19 +1099,20 @@ a {
 
 .portfolio-contact-text {
   position: absolute;
-  top: 22px;
-  left: 62px;
+  top: 25px;
+  left: 70px;
   display: flex;
   flex-direction: column;
-  gap: 43px;
+  gap: 44px;
 }
 
 .portfolio-contact-text p {
   color: #ffffff;
-  font-size: clamp(16px, 1.4vw, 22px);
+  font-size: 22px;
   font-weight: 700;
   line-height: 1;
   margin: 0;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
