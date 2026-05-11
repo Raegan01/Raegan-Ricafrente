@@ -339,8 +339,9 @@ a {
 }
 
 .ellipse-icon {
-  left: 304px;
-  top: 4px;
+    width: 12px;
+    left: 325px;
+    top: 17.5px;
 }
 
 /* HERO CONTENT */
