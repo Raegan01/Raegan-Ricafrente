@@ -1219,68 +1219,69 @@ a {
   position: relative;
 }
 
+/* TOOL ICONS UNDER CONTACT */
 .tool-icons {
   position: relative;
   width: 430px;
-  height: 170px;
-  margin-top: 18px;
+  height: 110px;
+  margin-top: 8px;
 }
 
 .tool-icon {
   position: absolute;
-  width: 36px;
+  width: 24px;
   height: auto;
   object-fit: contain;
   opacity: 0.95;
 }
 
+.move-icon {
+  left: 0;
+  top: 58px;
+}
+
 .text-icon {
-  left: 40px;
-  top: 52px;
+  left: 48px;
+  top: 28px;
   transform: rotate(-25deg);
 }
 
 .pen-icon {
-  left: 118px;
-  top: 18px;
+  left: 98px;
+  top: 2px;
   transform: rotate(8deg);
 }
 
 .brush-icon {
-  left: 205px;
-  top: 32px;
+  left: 152px;
+  top: 18px;
   transform: rotate(-18deg);
 }
 
 .eyedropper-icon {
-  left: 260px;
-  top: 78px;
+  left: 208px;
+  top: 52px;
   transform: rotate(-34deg);
 }
 
 .bucket-icon {
-  left: 328px;
-  top: 94px;
+  left: 266px;
+  top: 70px;
   transform: rotate(-16deg);
 }
 
 .eraser-icon {
-  left: 388px;
-  top: 82px;
+  left: 318px;
+  top: 72px;
   transform: rotate(-28deg);
 }
 
 .zoom-icon {
-  left: 398px;
-  top: 28px;
+  left: 362px;
+  top: 46px;
 }
 
 .ellipse-icon {
-  left: 350px;
+  left: 370px;
   top: 8px;
-}
-
-.move-icon {
-  left: 0;
-  top: 88px;
 }
