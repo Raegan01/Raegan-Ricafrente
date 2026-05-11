@@ -297,9 +297,10 @@ a {
 }
 
 .text-icon {
-  left: 44px;
-  top: 24px;
-  transform: rotate(-25deg);
+  width: 32.5px;
+  left: 37px;
+  top: 13px;
+  transform: rotate(-2deg);
 }
 
 .pen-icon {
