@@ -192,7 +192,8 @@ a {
   grid-template-columns: 0.48fr 1.52fr;
   gap: 34px;
   align-items: start;
-  margin-bottom: 70px;
+  margin-top: 50px;
+  margin-bottom: 20px;
 }
 
 .portfolio-name {
