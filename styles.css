@@ -240,10 +240,6 @@ a {
   gap: 37px;
 }
 
-.portfolio-contact-text p:nth-child(2) {
-  transform: translateY(6px);
-}
-
 .portfolio-contact-text p {
   color: #ffffff;
   font-size: 16px;
@@ -251,6 +247,14 @@ a {
   line-height: 1;
   margin: 0;
   white-space: nowrap;
+}
+
+.portfolio-contact-text p:nth-child(1) {
+  transform: translateY(6px);
+}
+
+.portfolio-contact-text p:nth-child(2) {
+  transform: translateY(6px);
 }
 
 .portfolio-title-image {
