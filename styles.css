@@ -232,6 +232,7 @@ a {
   width: 100%;
   height: auto;
   display: block;
+  padding-bottom: 10px
 }
 
 .portfolio-contact-text {
