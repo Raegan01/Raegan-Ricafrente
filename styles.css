@@ -1094,6 +1094,10 @@ a {
   white-space: nowrap;
 }
 
+.portfolio-contact-text p:nth-child(2) {
+  transform: translateY(-6px);
+}
+
 @media (max-width: 900px) {
   .portfolio-intro {
     grid-template-columns: 1fr;
