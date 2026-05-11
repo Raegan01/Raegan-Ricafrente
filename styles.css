@@ -1127,3 +1127,73 @@ a {
     width: min(100%, 380px);
   }
 }
+
+.portfolio-name {
+  position: relative;
+}
+
+.tool-icons {
+  position: relative;
+  width: 430px;
+  height: 170px;
+  margin-top: 18px;
+}
+
+.tool-icon {
+  position: absolute;
+  width: 36px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.text-icon {
+  left: 40px;
+  top: 52px;
+  transform: rotate(-25deg);
+}
+
+.pen-icon {
+  left: 118px;
+  top: 18px;
+  transform: rotate(8deg);
+}
+
+.brush-icon {
+  left: 205px;
+  top: 32px;
+  transform: rotate(-18deg);
+}
+
+.eyedropper-icon {
+  left: 260px;
+  top: 78px;
+  transform: rotate(-34deg);
+}
+
+.bucket-icon {
+  left: 328px;
+  top: 94px;
+  transform: rotate(-16deg);
+}
+
+.eraser-icon {
+  left: 388px;
+  top: 82px;
+  transform: rotate(-28deg);
+}
+
+.zoom-icon {
+  left: 398px;
+  top: 28px;
+}
+
+.ellipse-icon {
+  left: 350px;
+  top: 8px;
+}
+
+.move-icon {
+  left: 0;
+  top: 88px;
+}
