@@ -191,17 +191,13 @@ a {
   display: grid;
   grid-template-columns: 0.48fr 1.52fr;
   gap: 34px;
-  align-items: stretch;
+  align-items: start;
   margin-bottom: 70px;
 }
 
 .portfolio-name {
-  position: relative;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transform: translateY(0);
+  align-self: start;
+  transform: translateY(8px);
 }
 
 .portfolio-title-image {
@@ -267,7 +263,7 @@ a {
 .portfolio-title-image {
   display: flex;
   justify-content: flex-end;
-  align-items: stretch;
+  align-items: center;
 }
 
 .portfolio-title-image img {
@@ -281,9 +277,8 @@ a {
 .tool-icons {
   position: relative;
   width: 330px;
-  height: 120px;
+  height: 90px;
   margin-top: 10px;
-  margin-bottom: 0;
 }
 
 .tool-icon {
