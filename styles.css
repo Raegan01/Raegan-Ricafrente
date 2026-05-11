@@ -189,9 +189,9 @@ a {
 /* PORTFOLIO INTRO */
 .portfolio-intro {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 0.48fr 1.52fr;
   gap: 34px;
-  align-items: stretch;
+  align-items: start;
   margin-bottom: 70px;
 }
 
@@ -267,7 +267,7 @@ a {
 }
 
 .portfolio-title-image img {
-  width: 100%;
+  width: min(100%, 980px);
   height: auto;
   display: block;
   object-fit: contain;
