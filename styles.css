@@ -233,11 +233,15 @@ a {
 
 .portfolio-contact-text {
   position: absolute;
-  top: 19px;
+  top: 17px;
   left: 54px;
   display: flex;
   flex-direction: column;
-  gap: 33px;
+  gap: 37px;
+}
+
+.portfolio-contact-text p:nth-child(2) {
+  transform: translateY(2px);
 }
 
 .portfolio-contact-text p {
