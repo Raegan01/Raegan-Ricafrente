@@ -1095,7 +1095,7 @@ a {
 }
 
 .portfolio-contact-text p:nth-child(2) {
-  transform: translateY(4px);
+  transform: translateY(6px);
 }
 
 @media (max-width: 900px) {
