@@ -1048,20 +1048,26 @@ a {
 }
 
 .portfolio-name {
+  position: relative;
   transform: translateY(22px);
 }
 
-.portfolio-title-image {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+.portfolio-name h2 {
+  font-size: clamp(30px, 3.2vw, 44px);
+  line-height: 0.95;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  white-space: nowrap;
 }
 
-.portfolio-title-image img {
-  width: min(100%, 760px);
-  height: auto;
-  display: block;
-  object-fit: contain;
+.portfolio-name p {
+  margin-top: 6px;
+  font-size: clamp(13px, 1.2vw, 16px);
+  line-height: 1.35;
+  color: #d7e6f7;
+  max-width: 620px;
+  white-space: nowrap;
 }
 
 .portfolio-contact-image-wrap {
@@ -1094,8 +1100,84 @@ a {
   white-space: nowrap;
 }
 
-.portfolio-contact-text p:nth-child(2) {
-  transform: translateY(6px);
+.portfolio-title-image {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.portfolio-title-image img {
+  width: min(100%, 760px);
+  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+/* TOOL ICONS UNDER CONTACT */
+.tool-icons {
+  position: relative;
+  width: 430px;
+  height: 150px;
+  margin-top: 16px;
+}
+
+.tool-icon {
+  position: absolute;
+  width: 34px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.95;
+}
+
+.move-icon {
+  left: 0;
+  top: 72px;
+}
+
+.text-icon {
+  left: 58px;
+  top: 34px;
+  transform: rotate(-25deg);
+}
+
+.pen-icon {
+  left: 128px;
+  top: 0;
+  transform: rotate(8deg);
+}
+
+.brush-icon {
+  left: 205px;
+  top: 22px;
+  transform: rotate(-18deg);
+}
+
+.eyedropper-icon {
+  left: 260px;
+  top: 66px;
+  transform: rotate(-34deg);
+}
+
+.bucket-icon {
+  left: 325px;
+  top: 86px;
+  transform: rotate(-16deg);
+}
+
+.eraser-icon {
+  left: 378px;
+  top: 88px;
+  transform: rotate(-28deg);
+}
+
+.zoom-icon {
+  left: 405px;
+  top: 54px;
+}
+
+.ellipse-icon {
+  left: 405px;
+  top: 12px;
 }
 
 @media (max-width: 900px) {
@@ -1103,7 +1185,6 @@ a {
     grid-template-columns: 1fr;
     gap: 28px;
     margin-bottom: 50px;
-    min-height: auto;
   }
 
   .portfolio-name {
@@ -1115,6 +1196,11 @@ a {
     white-space: normal;
   }
 
+  .portfolio-contact-image-wrap,
+  .tool-icons {
+    width: min(100%, 430px);
+  }
+
   .portfolio-title-image {
     justify-content: flex-start;
   }
@@ -1122,6 +1208,7 @@ a {
   .portfolio-title-image img {
     width: 100%;
   }
+}
 
   .portfolio-contact-image-wrap {
     width: min(100%, 380px);
