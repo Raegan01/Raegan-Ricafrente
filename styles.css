@@ -197,7 +197,7 @@ a {
 
 .portfolio-name {
   align-self: start;
-  transform: translateY(0);
+  transform: translateY(8px);
 }
 
 .portfolio-title-image {
