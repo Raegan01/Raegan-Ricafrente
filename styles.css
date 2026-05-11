@@ -191,14 +191,17 @@ a {
   display: grid;
   grid-template-columns: 0.48fr 1.52fr;
   gap: 34px;
-  align-items: center;
+  align-items: start;
   margin-bottom: 70px;
 }
 
 .portfolio-name {
-  position: relative;
-  transform: none;
-  align-self: center;
+  align-self: start;
+  transform: translateY(0);
+}
+
+.portfolio-title-image {
+  align-items: flex-start;
 }
 
 .portfolio-name h2 {
