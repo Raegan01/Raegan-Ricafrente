@@ -1222,3 +1222,11 @@ a {
     font-size: 0.9rem;
   }
 }
+
+.ab-testing-shell {
+  margin-bottom: 36px;
+}
+
+.ab-testing-shell:last-child {
+  margin-bottom: 0;
+}
