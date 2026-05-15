@@ -233,7 +233,7 @@ a {
   width: 100%;
   height: auto;
   display: block;
-  padding-bottom: 10px
+  padding-bottom: 15px
 }
 
 .portfolio-contact-text {
@@ -1241,5 +1241,5 @@ a {
   width: 330px;
   height: auto;
   display: block;
-  margin-top: 40px;
+  margin-top: 20px;
 }
