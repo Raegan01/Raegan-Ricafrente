@@ -1230,3 +1230,16 @@ a {
 .ab-testing-shell:last-child {
   margin-bottom: 0;
 }
+
+.portfolio-name {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+
+.portfolio-brushstroke {
+  width: 330px;
+  height: auto;
+  display: block;
+  margin-top: auto;
+}
