@@ -239,7 +239,7 @@ a {
 .portfolio-contact-text {
   position: absolute;
   top: 17px;
-  left: 75px;
+  left: 85px;
   display: flex;
   flex-direction: column;
   gap: 37px;
