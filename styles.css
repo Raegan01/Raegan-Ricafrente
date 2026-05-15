@@ -233,7 +233,7 @@ a {
   width: 100%;
   height: auto;
   display: block;
-  padding-bottom: 10px;
+  padding-bottom: 10px
 }
 
 .portfolio-contact-text {
@@ -263,7 +263,6 @@ a {
 }
 
 .portfolio-title-image {
-  position: relative;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -274,27 +273,6 @@ a {
   height: auto;
   display: block;
   object-fit: contain;
-}
-
-/* PORTFOLIO CIRCLE IMAGE */
-.portfolio-circle {
-  position: absolute;
-  top: 7.5%;
-  left: 32.6%;
-  width: 17.7%;
-  aspect-ratio: 1 / 1;
-  border-radius: 50%;
-  overflow: hidden;
-  z-index: 3;
-}
-
-.portfolio-circle img {
-  width: 118%;
-  height: 118%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  transform: translate(-7.5%, -7.5%);
 }
 
 /* TOOL ICONS UNDER CONTACT */
@@ -1134,12 +1112,6 @@ a {
 
   .portfolio-title-image img {
     width: 100%;
-  }
-
-  .portfolio-circle {
-    top: 3%;
-    left: 29.5%;
-    width: 22%;
   }
 
   .contact-grid {
