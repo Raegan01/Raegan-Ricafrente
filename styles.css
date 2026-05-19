@@ -1263,8 +1263,8 @@ a {
 
 .problems-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px 28px;
+  grid-template-columns: 1fr;
+  gap: 22px;
 }
 
 .problem-item h4 {
