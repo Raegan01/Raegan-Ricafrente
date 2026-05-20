@@ -1336,3 +1336,44 @@ a {
     height: 46px;
   }
 }
+
+.contact-animated-heading {
+  line-height: 1.15;
+}
+
+.word-roller {
+  display: inline-block;
+  height: 1.15em;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.word-roller span {
+  display: flex;
+  flex-direction: column;
+  animation: rollWords 6s infinite;
+}
+
+.word-roller b {
+  display: block;
+  height: 1.15em;
+  font-weight: 800;
+}
+
+@keyframes rollWords {
+  0%, 25% {
+    transform: translateY(0);
+  }
+
+  33%, 58% {
+    transform: translateY(-1.15em);
+  }
+
+  66%, 91% {
+    transform: translateY(-2.3em);
+  }
+
+  100% {
+    transform: translateY(-3.45em);
+  }
+}
