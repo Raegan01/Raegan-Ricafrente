@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: { alias: { "@": path.resolve(__dirname, ".") } },
   test: {
     environment: "jsdom",
+    exclude: ["e2e/**", "node_modules/**", "node_modules-corrupt/**", ".git/**"],
     setupFiles: ["./vitest.setup.ts"],
     css: true,
   },
