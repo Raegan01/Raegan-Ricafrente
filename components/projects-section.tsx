@@ -1,3 +1,4 @@
+import { MediaPlaceholder } from "@/components/media-placeholder";
 import { projects } from "@/data/site-content";
 
 export function ProjectsSection() {
@@ -25,9 +26,11 @@ export function ProjectsSection() {
       <div className="projects-grid" id="projects-grid">
         {projects.map((project) => (
           <article className="project-card" key={project.title}>
-            <div
+            <MediaPlaceholder
               className="project-card__media"
-              aria-label={`${project.title} image placeholder`}
+              description={`Future ${project.title} project image`}
+              kind="image"
+              label={project.placeholderLabel}
             />
             <div className="project-card__content">
               <h3>{project.title}</h3>

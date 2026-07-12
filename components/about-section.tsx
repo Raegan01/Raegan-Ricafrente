@@ -1,9 +1,16 @@
+import { MediaPlaceholder } from "@/components/media-placeholder";
+
 export function AboutSection() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
       <p className="eyebrow">[ About ]</p>
       <div className="about-section__grid">
-        <div className="about-section__portrait" aria-label="Portrait image placeholder" />
+        <MediaPlaceholder
+          className="about-section__portrait"
+          description="Future portrait illustration of Ananya Mehrotra"
+          kind="image"
+          label="PORTRAIT IMAGE"
+        />
         <div className="about-section__content">
           <p className="about-section__kicker">Why Choose Me</p>
           <h2 id="about-title">Hi, I&apos;m Ananya Mehrotra</h2>
