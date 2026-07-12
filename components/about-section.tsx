@@ -1,4 +1,5 @@
 import { MediaPlaceholder } from "@/components/media-placeholder";
+import { Reveal } from "@/components/reveal";
 
 export function AboutSection() {
   return (
@@ -11,7 +12,7 @@ export function AboutSection() {
           kind="image"
           label="PORTRAIT IMAGE"
         />
-        <div className="about-section__content">
+        <Reveal className="about-section__content">
           <p className="about-section__kicker">Why Choose Me</p>
           <h2 id="about-title">Hi, I&apos;m Ananya Mehrotra</h2>
           <h3>Communication Designer</h3>
@@ -31,7 +32,7 @@ export function AboutSection() {
             research, clear systems, and a curiosity for how visual decisions
             help people connect.
           </p>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

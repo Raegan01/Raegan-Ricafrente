@@ -1,9 +1,10 @@
 import { resumeHref, socials } from "@/data/site-content";
+import { Reveal } from "@/components/reveal";
 
 export function ContactSection() {
   return (
     <footer className="contact-section" id="contact" aria-labelledby="contact-title">
-      <div className="contact-section__prelude">
+      <Reveal className="contact-section__prelude">
         <div>
           <p>Every design starts with a thought worth exploring.</p>
           <p>Let&apos;s talk and create something unforgettable.</p>
@@ -17,7 +18,7 @@ export function ContactSection() {
             Say Hello!
           </a>
         </div>
-      </div>
+      </Reveal>
 
       <div className="contact-section__footer">
         <div>

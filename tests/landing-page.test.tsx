@@ -41,4 +41,17 @@ describe("LandingPage", () => {
       screen.getByRole("link", { name: /ananya\.dezign@gmail\.com/i }),
     ).toHaveAttribute("href", "mailto:ananya.dezign@gmail.com");
   });
+
+  it("keeps animated content represented once in the accessibility tree", () => {
+    render(<LandingPage />);
+
+    expect(
+      screen.getAllByRole("heading", { name: /projects/i }),
+    ).toHaveLength(1);
+    expect(screen.getAllByText("Motion Graphics")).toHaveLength(1);
+    expect(screen.getByTestId("cursor-follower")).toHaveAttribute(
+      "aria-hidden",
+      "true",
+    );
+  });
 });

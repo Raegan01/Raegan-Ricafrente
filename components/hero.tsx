@@ -1,4 +1,5 @@
-import { disciplines } from "@/data/site-content";
+import { DisciplineTicker } from "@/components/discipline-ticker";
+import { Reveal } from "@/components/reveal";
 
 export function Hero() {
   return (
@@ -10,19 +11,15 @@ export function Hero() {
           ©
         </span>
       </div>
-      <div className="hero__support">
+      <Reveal className="hero__support">
         <p>
           If it looks simple; it&apos;s because I made it look that way
           <br />
           Scroll-Down there is a method in the mess
         </p>
-      </div>
+      </Reveal>
       <p className="eyebrow hero__role">[ Graphic Designer ]</p>
-      <ul className="discipline-list" aria-label="Design disciplines">
-        {disciplines.map((discipline) => (
-          <li key={discipline}>{discipline}</li>
-        ))}
-      </ul>
+      <DisciplineTicker />
     </section>
   );
 }

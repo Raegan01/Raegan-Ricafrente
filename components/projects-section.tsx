@@ -1,4 +1,5 @@
 import { MediaPlaceholder } from "@/components/media-placeholder";
+import { Reveal } from "@/components/reveal";
 import { projects } from "@/data/site-content";
 
 export function ProjectsSection() {
@@ -8,7 +9,7 @@ export function ProjectsSection() {
       id="projects"
       aria-label="Selected projects"
     >
-      <div className="section-heading-row">
+      <Reveal className="section-heading-row">
         <div>
           <p className="eyebrow">[ Project ]</p>
           <h2 id="projects-title">Projects</h2>
@@ -22,7 +23,7 @@ export function ProjectsSection() {
         <span className="button button--dark" aria-hidden="true">
           See them all
         </span>
-      </div>
+      </Reveal>
       <div className="projects-grid" id="projects-grid">
         {projects.map((project) => (
           <article className="project-card" key={project.title}>
