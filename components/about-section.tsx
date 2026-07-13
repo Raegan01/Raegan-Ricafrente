@@ -4,16 +4,21 @@ import { Reveal } from "@/components/reveal";
 export function AboutSection() {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
-      <p className="eyebrow">[ About ]</p>
-      <div className="about-section__grid">
-        <MediaPlaceholder
-          className="about-section__portrait"
-          description="Future portrait illustration of Ananya Mehrotra"
-          kind="image"
-          label="PORTRAIT IMAGE"
-        />
-        <Reveal className="about-section__content">
+      <div className="section-canvas about-section__grid">
+        <div className="about-section__visual">
+          <p className="eyebrow">[ About ]</p>
           <p className="about-section__kicker">Why Choose Me</p>
+          <div className="about-section__portrait-stack">
+            <span aria-hidden="true" className="about-section__portrait-layer" />
+            <MediaPlaceholder
+              className="about-section__portrait"
+              description="Future portrait illustration of Ananya Mehrotra"
+              kind="image"
+              label="PORTRAIT IMAGE"
+            />
+          </div>
+        </div>
+        <Reveal className="about-section__content">
           <h2 id="about-title">Hi, I&apos;m Ananya Mehrotra</h2>
           <h3>Communication Designer</h3>
           <p className="about-section__copy">
@@ -24,14 +29,9 @@ export function AboutSection() {
             every design challenge and a love for creating work that fosters
             clarity and connection.
           </p>
-          <a className="button button--dark" href="#about-story">
+          <span className="button button--dark" aria-hidden="true">
             Learn More
-          </a>
-          <p className="about-section__story" id="about-story">
-            Behind every simple design is deliberate overthinking—careful
-            research, clear systems, and a curiosity for how visual decisions
-            help people connect.
-          </p>
+          </span>
         </Reveal>
       </div>
     </section>

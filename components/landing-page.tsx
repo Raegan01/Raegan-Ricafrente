@@ -1,6 +1,7 @@
 import { AboutSection } from "@/components/about-section";
-import { ContactSection } from "@/components/contact-section";
+import { CtaPrelude } from "@/components/cta-prelude";
 import { CursorFollower } from "@/components/cursor-follower";
+import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Header } from "@/components/header";
 import { ProjectsSection } from "@/components/projects-section";
@@ -16,7 +17,8 @@ export function LandingPage() {
           <ProjectsSection />
           <AboutSection />
         </div>
-        <ContactSection />
+        <CtaPrelude />
+        <Footer />
       </main>
     </>
   );

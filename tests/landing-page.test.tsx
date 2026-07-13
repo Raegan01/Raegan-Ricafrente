@@ -60,6 +60,27 @@ describe("LandingPage", () => {
     ).toHaveAttribute("href", "mailto:ananya.dezign@gmail.com");
   });
 
+  it("keeps the resume and email CTAs without inner-page destinations", () => {
+    render(<LandingPage />);
+
+    expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("drive.google.com"),
+    );
+    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
+      "href",
+      "mailto:ananya.dezign@gmail.com",
+    );
+    expect(screen.getByRole("link", { name: /contact me/i })).toHaveAttribute(
+      "href",
+      "mailto:ananya.dezign@gmail.com",
+    );
+    expect(
+      screen.queryByRole("link", { name: /learn more/i }),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
+  });
+
   it("keeps animated content represented once in the accessibility tree", () => {
     render(<LandingPage />);
 
