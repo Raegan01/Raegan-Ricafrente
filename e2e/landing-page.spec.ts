@@ -71,7 +71,7 @@ test("desktop layout keeps the editorial grid and menu overlay", async ({ page }
 
   const projects = page.locator("#projects");
   await expect(projects).toBeVisible();
-  await expect(projects.locator("article")).toHaveCount(4);
+  await expect(projects.locator("article")).toHaveCount(3);
 
   await expect(page).toHaveScreenshot("desktop-hero.png", {
     animations: "disabled",
@@ -104,7 +104,13 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   const projectsTop = await page
     .locator("#projects")
     .evaluate((node) => node.getBoundingClientRect().top + window.scrollY);
-  expect(aboutTop).toBeLessThan(projectsTop);
+  expect(projectsTop).toBeLessThan(aboutTop);
+  await expect(page.locator("#projects article")).toHaveCount(3);
+
+  const featureDisplay = await page.locator(".project-card--feature").evaluate(
+    (node) => getComputedStyle(node).display,
+  );
+  expect(featureDisplay).toBe("flex");
 
   await expect(page).toHaveScreenshot("mobile-hero.png", {
     animations: "disabled",

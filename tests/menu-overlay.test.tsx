@@ -31,6 +31,19 @@ describe("Header menu", () => {
     render(<Header />);
     await user.click(screen.getByRole("button", { name: /open menu/i }));
 
+    for (const [name, href] of [
+      ["Home", "#home"],
+      ["Projects", "#projects"],
+      ["About", "#about"],
+      ["Contact", "#contact"],
+    ] as const) {
+      expect(screen.getByRole("link", { name })).toHaveAttribute("href", href);
+    }
+    expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("drive.google.com"),
+    );
+
     const projects = screen.getByRole("link", { name: "Projects" });
     expect(projects).toHaveAttribute("href", "#projects");
     expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
