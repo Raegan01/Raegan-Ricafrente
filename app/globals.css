@@ -292,18 +292,24 @@ h3 {
   transform: translateY(24px);
 }
 
+.section-canvas {
+  width: min(var(--desktop-canvas), calc(100vw - 100px));
+  margin: 0 auto;
+}
+
 .projects-section {
   order: 1;
-  padding: 37px 83px 118px;
+  padding: 0 0 128px;
+  border-top: 1px solid var(--line);
   background: var(--paper);
 }
 
 .section-heading-row {
   display: flex;
-  min-height: 172px;
+  min-height: 286px;
   align-items: flex-end;
   justify-content: space-between;
-  padding-bottom: 28px;
+  padding: 76px 0 44px;
 }
 
 .projects-section h2 {
@@ -324,72 +330,99 @@ h3 {
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  gap: 12px;
 }
 
 .project-card {
-  position: relative;
-  min-height: 450px;
   overflow: hidden;
   border-radius: var(--radius);
-  color: var(--paper);
-  background: var(--ink);
-  isolation: isolate;
+  background: #ecebea;
+  transition: transform 260ms ease;
 }
 
-.project-card__media {
-  position: absolute;
-  inset: 0;
+.project-card:hover {
+  transform: translateY(-3px);
 }
 
-.project-card:nth-child(1) .media-placeholder {
-  --placeholder-start: #c8c8c3;
-  --placeholder-end: #8f9691;
+.project-card--feature {
+  display: grid;
+  min-height: 488px;
+  grid-column: 1 / -1;
+  grid-template-columns: 40% 60%;
 }
 
-.project-card:nth-child(2) .media-placeholder {
-  --placeholder-start: #d4cdc2;
-  --placeholder-end: #a49e91;
+.project-card--feature .project-card__content {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 42px;
+  color: var(--ink);
+  background: #9fa995;
 }
 
-.project-card:nth-child(3) .media-placeholder {
-  --placeholder-start: #232525;
-  --placeholder-end: #0d0f10;
+.project-card--standard {
+  display: flex;
+  min-height: 585px;
+  flex-direction: column;
 }
 
-.project-card:nth-child(4) .media-placeholder {
-  --placeholder-start: #a7b2aa;
-  --placeholder-end: #718078;
+.project-card--standard .project-card__media {
+  min-height: 450px;
+  flex: 1;
 }
 
-.project-card__media::after {
-  position: absolute;
-  inset: 35% 0 0;
-  background: linear-gradient(transparent, rgba(0, 0, 0, 0.72));
-  content: "";
+.project-card--standard .project-card__content {
+  display: flex;
+  min-height: 135px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 28px;
+  color: var(--ink);
+  background: var(--paper);
 }
 
 .project-card__content {
-  position: absolute;
-  z-index: 2;
-  right: 36px;
-  bottom: 27px;
-  left: 36px;
   font-family: "IBM Plex Mono", monospace;
 }
 
 .project-card__content h3 {
-  margin-bottom: 5px;
-  font-size: 39px;
+  margin: 0 0 8px;
+  font-size: 32px;
   font-weight: 600;
-  letter-spacing: -1px;
-  line-height: 1.1;
+  line-height: 1.08;
 }
 
 .project-card__content p {
-  margin-top: 9px;
+  margin: 3px 0 0;
   font-size: 12px;
-  font-weight: 600;
+}
+
+.project-card__arrow {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  flex: none;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+}
+
+.project-card--desk .media-placeholder {
+  --placeholder-start: #d2d1ca;
+  --placeholder-end: #a9ada5;
+}
+
+.project-card--ragas .media-placeholder {
+  --placeholder-start: #d6d0c5;
+  --placeholder-end: #aaa397;
+}
+
+.project-card--bound .media-placeholder {
+  --placeholder-start: #333636;
+  --placeholder-end: #17191a;
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .media-placeholder {

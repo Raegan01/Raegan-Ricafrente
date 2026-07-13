@@ -29,6 +29,14 @@ describe("LandingPage", () => {
     expect(within(section).queryByText("adidas x D.O.N.")).not.toBeInTheDocument();
     expect(within(section).queryByRole("link")).not.toBeInTheDocument();
     expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
+
+    const cards = within(section).getAllByRole("article");
+    expect(cards[0]).toHaveClass("project-card--feature", "project-card--desk");
+    expect(cards[1]).toHaveClass("project-card--standard", "project-card--ragas");
+    expect(cards[2]).toHaveClass("project-card--standard", "project-card--bound");
+    expect(
+      within(cards[0]).getByRole("button", { name: /open desk mate project/i }),
+    ).toBeDisabled();
   });
 
   it("orders projects, about, and contact like the recording", () => {
