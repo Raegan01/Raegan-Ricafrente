@@ -25,6 +25,7 @@ export function Header() {
               Mehrotra
             </span>
           </a>
+          <p className="site-header__availability">[ Available for project ]</p>
           <button
             aria-expanded={open}
             aria-haspopup="dialog"

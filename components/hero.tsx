@@ -7,7 +7,6 @@ export function Hero() {
       <section className="hero" id="home" aria-labelledby="hero-title">
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__canvas">
-          <div className="hero__availability">[ Available for project ]</div>
           <div className="hero__main">
             <h1 id="hero-title">
               <span className="hero__title-line">Design is my</span>{" "}

@@ -1,5 +1,22 @@
 import { expect, test } from "@playwright/test";
 
+test("recording desktop keeps fixed controls over a normal-flow hero", async ({ page }) => {
+  await page.setViewportSize({ width: 2542, height: 1261 });
+  await page.goto("/");
+
+  await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
+  await expect(page.locator(".site-header__availability")).toBeVisible();
+  await expect(page.locator(".hero")).toHaveCSS("position", "relative");
+
+  const heroBox = await page.locator(".hero-stage").boundingBox();
+  const projectsTop = await page.locator("#projects").evaluate(
+    (node) => node.getBoundingClientRect().top + window.scrollY,
+  );
+  expect(heroBox).not.toBeNull();
+  expect(heroBox!.height).toBeCloseTo(1261, 1);
+  expect(projectsTop).toBeCloseTo(heroBox!.height, 1);
+});
+
 test("reference desktop geometry uses the centered editorial grid", async ({ page }) => {
   const viewport = { width: 2542, height: 1261 };
   await page.setViewportSize(viewport);
