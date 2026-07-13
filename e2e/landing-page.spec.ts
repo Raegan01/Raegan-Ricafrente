@@ -179,21 +179,36 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
 });
 
 test("target desktop scroll states", async ({ page }) => {
-  await page.setViewportSize({ width: 2542, height: 1261 });
+  const viewport = { width: 2542, height: 1261 };
+  await page.setViewportSize(viewport);
   await page.goto("/");
   await stabilizeForScreenshot(page);
 
   await page.evaluate(() => window.scrollTo(0, 0));
+  const heroScreenshot = await page.screenshot({ animations: "disabled" });
   await expect(page).toHaveScreenshot("target-desktop-hero.png", {
     animations: "disabled",
   });
 
-  await page.evaluate(() => window.scrollTo(0, 80));
+  await page.evaluate(() => window.scrollTo(0, 180));
+  await page.waitForFunction(() => window.scrollY === 180);
+  const projectsBox = await page.locator("#projects").boundingBox();
+  expect(projectsBox).not.toBeNull();
+  expect(projectsBox!.y).toBeLessThan(viewport.height);
+  const overlapScreenshot = await page.screenshot({
+    animations: "disabled",
+  });
+  expect(overlapScreenshot.equals(heroScreenshot)).toBe(false);
   await expect(page).toHaveScreenshot("target-desktop-overlap.png", {
     animations: "disabled",
   });
 
-  await page.locator("#projects").scrollIntoViewIfNeeded();
+  const projectsTop = await page.locator("#projects").evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return rect.top + window.scrollY;
+  });
+  await page.evaluate((top) => window.scrollTo(0, top), projectsTop);
+  await page.waitForFunction((top) => window.scrollY === top, projectsTop);
   await expect(page.locator("#projects")).toHaveScreenshot(
     "target-desktop-project-grid.png",
     { animations: "disabled" },
