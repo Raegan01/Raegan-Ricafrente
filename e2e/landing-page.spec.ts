@@ -1,4 +1,15 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
+
+async function stabilizeForScreenshot(page: Page) {
+  await page.addStyleTag({
+    content: [
+      ".discipline-list{transform:none!important}",
+      ".reveal{opacity:1!important;transform:none!important}",
+      ".cursor-trail{display:none!important}",
+      "*{scroll-behavior:auto!important}",
+    ].join(""),
+  });
+}
 
 test("recording desktop keeps fixed controls over a normal-flow hero", async ({ page }) => {
   await page.setViewportSize({ width: 2542, height: 1261 });
@@ -9,12 +20,22 @@ test("recording desktop keeps fixed controls over a normal-flow hero", async ({ 
   await expect(page.locator(".hero")).toHaveCSS("position", "relative");
 
   const heroBox = await page.locator(".hero-stage").boundingBox();
+  const gridBox = await page.locator(".hero__grid").boundingBox();
+  const availabilityBox = await page
+    .locator(".site-header__availability")
+    .boundingBox();
   const projectsTop = await page.locator("#projects").evaluate(
     (node) => node.getBoundingClientRect().top + window.scrollY,
   );
   expect(heroBox).not.toBeNull();
+  expect(gridBox).not.toBeNull();
+  expect(availabilityBox).not.toBeNull();
   expect(heroBox!.height).toBeCloseTo(1261, 1);
   expect(projectsTop).toBeCloseTo(heroBox!.height, 1);
+  expect(availabilityBox!.x + availabilityBox!.width).toBeCloseTo(
+    gridBox!.x + gridBox!.width,
+    0,
+  );
 });
 
 test("reference desktop geometry uses the centered editorial grid", async ({ page }) => {
@@ -127,4 +148,46 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   await expect(projectSection).toHaveScreenshot("mobile-projects.png", {
     animations: "disabled",
   });
+});
+
+test("recording desktop scroll states", async ({ page }) => {
+  await page.setViewportSize({ width: 2542, height: 1261 });
+  await page.goto("/");
+  await stabilizeForScreenshot(page);
+
+  await page.evaluate(() => window.scrollTo(0, 0));
+  await expect(page).toHaveScreenshot("recording-desktop-hero.png", {
+    animations: "disabled",
+  });
+
+  await page.locator("#projects").scrollIntoViewIfNeeded();
+  await expect(page.locator("#projects")).toHaveScreenshot(
+    "recording-desktop-projects.png",
+    { animations: "disabled" },
+  );
+
+  await page.locator("#about").scrollIntoViewIfNeeded();
+  await expect(page.locator("#about")).toHaveScreenshot(
+    "recording-desktop-about.png",
+    { animations: "disabled" },
+  );
+
+  await page.locator("#contact").scrollIntoViewIfNeeded();
+  await expect(page.locator("#contact")).toHaveScreenshot(
+    "recording-desktop-footer.png",
+    { animations: "disabled" },
+  );
+});
+
+test("reduced motion disables continuous landing-page motion", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".cursor-trail")).toHaveCSS("display", "none");
+  await expect(page.locator(".discipline-list")).toHaveCSS("transform", "none");
+});
+
+test("landing controls do not expose internal routes", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator('a[href^="/"]')).toHaveCount(0);
+  await expect(page.locator("#projects article")).toHaveCount(3);
 });

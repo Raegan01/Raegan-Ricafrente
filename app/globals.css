@@ -980,12 +980,19 @@ h3 {
   }
 
   .site-header__inner {
+    position: relative;
     display: flex;
     width: min(var(--desktop-canvas), calc(100vw - 100px));
     align-items: flex-start;
     justify-content: space-between;
     margin: 0 auto;
     transform: translateX(2px);
+  }
+
+  .site-header__availability {
+    position: absolute;
+    top: 77px;
+    right: 0;
   }
 
   .site-header__brand {
