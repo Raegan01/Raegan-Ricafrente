@@ -1,14 +1,42 @@
 "use client";
 
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import {
+  motion,
+  type MotionValue,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "motion/react";
 import { useEffect } from "react";
+
+const trailSegments = Array.from({ length: 14 }, (_, index) => index);
+
+function CursorSegment({
+  index,
+  targetX,
+  targetY,
+}: {
+  index: number;
+  targetX: MotionValue<number>;
+  targetY: MotionValue<number>;
+}) {
+  const stiffness = Math.max(72, 620 - index * 40);
+  const damping = Math.max(18, 38 - index * 1.4);
+  const x = useSpring(targetX, { damping, stiffness });
+  const y = useSpring(targetY, { damping, stiffness });
+
+  return (
+    <motion.span
+      className="cursor-follower__segment"
+      style={{ opacity: 1 - index * 0.035, x, y }}
+    />
+  );
+}
 
 export function CursorFollower() {
   const reducedMotion = useReducedMotion();
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
-  const x = useSpring(rawX, { damping: 28, stiffness: 420 });
-  const y = useSpring(rawY, { damping: 28, stiffness: 420 });
 
   useEffect(() => {
     if (reducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
@@ -23,11 +51,10 @@ export function CursorFollower() {
   }, [rawX, rawY, reducedMotion]);
 
   return (
-    <motion.span
-      aria-hidden="true"
-      className="cursor-follower"
-      data-testid="cursor-follower"
-      style={{ x, y }}
-    />
+    <span aria-hidden="true" className="cursor-follower" data-testid="cursor-follower">
+      {trailSegments.map((index) => (
+        <CursorSegment index={index} key={index} targetX={rawX} targetY={rawY} />
+      ))}
+    </span>
   );
 }

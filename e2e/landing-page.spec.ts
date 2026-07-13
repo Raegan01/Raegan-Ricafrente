@@ -1,5 +1,42 @@
 import { expect, test } from "@playwright/test";
 
+test("reference desktop geometry uses the centered editorial grid", async ({ page }) => {
+  const viewport = { width: 2542, height: 1261 };
+  await page.setViewportSize(viewport);
+  await page.goto("/");
+  await page.addStyleTag({
+    content:
+      ".discipline-list,.reveal{transform:none!important}.cursor-follower{display:none!important}",
+  });
+
+  const grid = page.locator(".hero__grid");
+  await expect(grid).toBeVisible();
+  const gridBox = await grid.boundingBox();
+  expect(gridBox).not.toBeNull();
+  expect(gridBox!.width).toBeCloseTo(1320, 0);
+  expect(gridBox!.x).toBeCloseTo((viewport.width - gridBox!.width) / 2 + 2, 0);
+  expect(gridBox!.y).toBeCloseTo(110, 0);
+  expect(gridBox!.height).toBeCloseTo(viewport.height - 150, 0);
+
+  const titleLines = page.locator(".hero__title-line");
+  await expect(titleLines).toHaveCount(3);
+  await expect(titleLines).toHaveText(["Design is my", "favorite way to", "overthink"]);
+
+  const brandBox = await page.locator(".site-header__brand").boundingBox();
+  const supportBox = await page.locator(".hero__support").boundingBox();
+  const roleBox = await page.locator(".hero__role").boundingBox();
+  const tickerBox = await page.locator(".discipline-ticker").boundingBox();
+
+  expect(brandBox!.x).toBeCloseTo(gridBox!.x, 0);
+  expect(roleBox!.x).toBeCloseTo(gridBox!.x, 0);
+  expect(supportBox!.x).toBeCloseTo(gridBox!.x + gridBox!.width / 4, 0);
+  expect(tickerBox!.x).toBeCloseTo(gridBox!.x + gridBox!.width / 4, 0);
+
+  await expect(page).toHaveScreenshot("reference-desktop-hero.png", {
+    animations: "disabled",
+  });
+});
+
 test("desktop layout keeps the editorial grid and menu overlay", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");

@@ -16,26 +16,28 @@ export function Header() {
   return (
     <>
       <header className="site-header">
-        <a className="site-header__brand" href="#home" aria-label="Ananya Mehrotra — Home">
-          <BrandMark className="site-header__mark" />
-          <span>
-            Ananya
-            <br />
-            Mehrotra
-          </span>
-        </a>
-        <button
-          aria-expanded={open}
-          aria-haspopup="dialog"
-          aria-label="Open menu"
-          className="site-header__menu-button"
-          onClick={() => setOpen(true)}
-          ref={triggerRef}
-          type="button"
-        >
-          <span aria-hidden="true" />
-          MENU
-        </button>
+        <div className="site-header__inner">
+          <a className="site-header__brand" href="#home" aria-label="Ananya Mehrotra — Home">
+            <BrandMark className="site-header__mark" />
+            <span>
+              Ananya
+              <br />
+              Mehrotra
+            </span>
+          </a>
+          <button
+            aria-expanded={open}
+            aria-haspopup="dialog"
+            aria-label="Open menu"
+            className="site-header__menu-button"
+            onClick={() => setOpen(true)}
+            ref={triggerRef}
+            type="button"
+          >
+            <span aria-hidden="true" />
+            MENU
+          </button>
+        </div>
       </header>
       {open ? <MenuOverlay onClose={closeMenu} /> : null}
     </>

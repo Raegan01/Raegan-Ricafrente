@@ -53,5 +53,8 @@ describe("LandingPage", () => {
       "aria-hidden",
       "true",
     );
+    expect(
+      screen.getByTestId("cursor-follower").querySelectorAll(".cursor-follower__segment"),
+    ).toHaveLength(14);
   });
 });
