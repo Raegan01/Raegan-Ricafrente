@@ -1,6 +1,6 @@
 import { AboutSection } from "@/components/about-section";
 import { CtaPrelude } from "@/components/cta-prelude";
-import { CursorFollower } from "@/components/cursor-follower";
+import { CursorTrail } from "@/components/cursor-trail";
 import { Footer } from "@/components/footer";
 import { Hero } from "@/components/hero";
 import { Header } from "@/components/header";
@@ -10,7 +10,7 @@ export function LandingPage() {
   return (
     <>
       <Header />
-      <CursorFollower />
+      <CursorTrail />
       <main>
         <Hero />
         <div className="landing-flow">

@@ -9,7 +9,7 @@ import {
 } from "motion/react";
 import { useEffect } from "react";
 
-const trailSegments = Array.from({ length: 14 }, (_, index) => index);
+const trailSegments = Array.from({ length: 18 }, (_, index) => index);
 
 function CursorSegment({
   index,
@@ -20,20 +20,21 @@ function CursorSegment({
   targetX: MotionValue<number>;
   targetY: MotionValue<number>;
 }) {
-  const stiffness = Math.max(72, 620 - index * 40);
-  const damping = Math.max(18, 38 - index * 1.4);
+  const stiffness = Math.max(54, 640 - index * 33);
+  const damping = Math.max(17, 39 - index * 1.15);
   const x = useSpring(targetX, { damping, stiffness });
   const y = useSpring(targetY, { damping, stiffness });
 
   return (
     <motion.span
-      className="cursor-follower__segment"
-      style={{ opacity: 1 - index * 0.035, x, y }}
+      className="cursor-trail__segment"
+      data-segment-index={index}
+      style={{ opacity: Math.max(0.42, 1 - index * 0.032), x, y }}
     />
   );
 }
 
-export function CursorFollower() {
+export function CursorTrail() {
   const reducedMotion = useReducedMotion();
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
@@ -51,7 +52,7 @@ export function CursorFollower() {
   }, [rawX, rawY, reducedMotion]);
 
   return (
-    <span aria-hidden="true" className="cursor-follower" data-testid="cursor-follower">
+    <span aria-hidden="true" className="cursor-trail" data-testid="cursor-trail">
       {trailSegments.map((index) => (
         <CursorSegment index={index} key={index} targetX={rawX} targetY={rawY} />
       ))}

@@ -88,12 +88,12 @@ describe("LandingPage", () => {
       screen.getAllByRole("heading", { name: /projects/i }),
     ).toHaveLength(1);
     expect(screen.getAllByText("Motion Graphics")).toHaveLength(1);
-    expect(screen.getByTestId("cursor-follower")).toHaveAttribute(
+    expect(screen.getByTestId("cursor-trail")).toHaveAttribute(
       "aria-hidden",
       "true",
     );
     expect(
-      screen.getByTestId("cursor-follower").querySelectorAll(".cursor-follower__segment"),
-    ).toHaveLength(14);
+      screen.getByTestId("cursor-trail").querySelectorAll(".cursor-trail__segment"),
+    ).toHaveLength(18);
   });
 });
