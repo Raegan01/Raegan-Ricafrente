@@ -1522,3 +1522,15 @@ h3 {
     display: none;
   }
 }
+
+@media (prefers-reduced-motion: reduce) and (hover: hover) and (pointer: fine) {
+  html,
+  body {
+    cursor: auto;
+  }
+
+  a,
+  button {
+    cursor: pointer;
+  }
+}

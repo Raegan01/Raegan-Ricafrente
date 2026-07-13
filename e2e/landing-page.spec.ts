@@ -211,6 +211,7 @@ test("reduced motion disables continuous landing-page motion", async ({ page }) 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator(".cursor-trail")).toHaveCSS("display", "none");
+  await expect(page.locator("html")).toHaveCSS("cursor", "auto");
   await expect(page.locator(".discipline-list")).toHaveCSS("transform", "none");
 });
 
