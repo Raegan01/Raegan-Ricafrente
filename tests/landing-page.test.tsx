@@ -18,25 +18,28 @@ describe("LandingPage", () => {
     expect(document.querySelector("#contact")).toBeInTheDocument();
   });
 
-  it("renders the recorded three-project composition without inner links", () => {
+  it("renders the recorded four-project composition without inner links", () => {
     render(<LandingPage />);
     const section = screen.getByRole("region", { name: /selected projects/i });
-
-    expect(within(section).getAllByRole("article")).toHaveLength(3);
-    expect(within(section).getByText("Desk Mate")).toBeInTheDocument();
-    expect(within(section).getByText("Ragas & Rhythms")).toBeInTheDocument();
-    expect(within(section).getByText("Bound & Beyond")).toBeInTheDocument();
-    expect(within(section).queryByText("adidas x D.O.N.")).not.toBeInTheDocument();
-    expect(within(section).queryByRole("link")).not.toBeInTheDocument();
-    expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
-
     const cards = within(section).getAllByRole("article");
-    expect(cards[0]).toHaveClass("project-card--feature", "project-card--desk");
-    expect(cards[1]).toHaveClass("project-card--standard", "project-card--ragas");
-    expect(cards[2]).toHaveClass("project-card--standard", "project-card--bound");
+    expect(cards).toHaveLength(4);
     expect(
-      within(cards[0]).getByRole("button", { name: /open desk mate project/i }),
-    ).toBeDisabled();
+      cards.map(
+        (card) => within(card).getByRole("heading", { level: 3 }).textContent,
+      ),
+    ).toEqual([
+      "adidas x D.O.N.",
+      "Desk Mate",
+      "Ragas & Rhythms",
+      "Bound & Beyond",
+    ]);
+    expect(within(section).queryByRole("link")).not.toBeInTheDocument();
+    expect(within(section).queryByRole("button")).not.toBeInTheDocument();
+    expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
+      "href",
+      "mailto:ananya.dezign@gmail.com",
+    );
   });
 
   it("orders projects, about, and contact like the recording", () => {
