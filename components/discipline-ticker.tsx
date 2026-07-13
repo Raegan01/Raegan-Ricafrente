@@ -1,18 +1,30 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { disciplines } from "@/data/site-content";
+
+const displayOrder = [
+  "Spatial / Exhibition Design",
+  "Layout",
+  "Branding",
+  "3D",
+  "Publication",
+  "Packaging",
+  "Motion Graphics",
+  "Typography",
+] as const;
 
 export function DisciplineTicker() {
   const reducedMotion = useReducedMotion();
 
   return (
-    <div className="discipline-ticker">
-      <motion.ul
-        animate={reducedMotion ? { x: 0 } : { x: [0, -220] }}
-        aria-label="Design disciplines"
-        className="discipline-list"
-        data-clone={disciplines.join("  ·  ")}
+    <div
+      aria-label="Design disciplines"
+      className="discipline-ticker"
+      role="group"
+    >
+      <motion.div
+        animate={reducedMotion ? { x: "0%" } : { x: ["0%", "-50%"] }}
+        className="discipline-track"
         transition={
           reducedMotion
             ? { duration: 0 }
@@ -23,10 +35,18 @@ export function DisciplineTicker() {
               }
         }
       >
-        {disciplines.map((discipline) => (
-          <li key={discipline}>{discipline}</li>
+        {[false, true].map((duplicate) => (
+          <ul
+            aria-hidden={duplicate || undefined}
+            className="discipline-list"
+            key={String(duplicate)}
+          >
+            {displayOrder.map((discipline) => (
+              <li key={discipline}>{discipline}</li>
+            ))}
+          </ul>
         ))}
-      </motion.ul>
+      </motion.div>
     </div>
   );
 }

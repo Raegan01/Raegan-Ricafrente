@@ -255,19 +255,17 @@ h3 {
   mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
 }
 
-.discipline-list {
+.discipline-track {
   display: flex;
   width: max-content;
-  gap: 9px;
   will-change: transform;
 }
 
-.discipline-list::after {
-  display: block;
-  align-self: center;
-  padding-left: 9px;
-  content: attr(data-clone);
-  white-space: pre;
+.discipline-list {
+  display: flex;
+  flex: none;
+  gap: 9px;
+  padding-right: 9px;
 }
 
 .discipline-list li {
@@ -1190,10 +1188,6 @@ h3 {
 
   .discipline-list {
     transform: none !important;
-  }
-
-  .discipline-list::after {
-    display: none;
   }
 
   .discipline-list li {

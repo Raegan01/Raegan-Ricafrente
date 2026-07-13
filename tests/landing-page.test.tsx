@@ -18,6 +18,39 @@ describe("LandingPage", () => {
     expect(document.querySelector("#contact")).toBeInTheDocument();
   });
 
+  it("renders the seamless ticker and preserves the lower-page contract", () => {
+    render(<LandingPage />);
+
+    const ticker = screen.getByRole("group", {
+      name: /design disciplines/i,
+    });
+    expect(
+      within(ticker)
+        .getAllByRole("listitem")
+        .map((item) => item.textContent)
+        .slice(0, 5),
+    ).toEqual([
+      "Spatial / Exhibition Design",
+      "Layout",
+      "Branding",
+      "3D",
+      "Publication",
+    ]);
+    expect(ticker.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
+    expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { name: /let's create something/i }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
+      "href",
+      expect.stringContaining("drive.google.com"),
+    );
+    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
+      "href",
+      "mailto:ananya.dezign@gmail.com",
+    );
+  });
+
   it("renders the recorded four-project composition without inner links", () => {
     render(<LandingPage />);
     const section = screen.getByRole("region", { name: /selected projects/i });
@@ -90,7 +123,11 @@ describe("LandingPage", () => {
     expect(
       screen.getAllByRole("heading", { name: /projects/i }),
     ).toHaveLength(1);
-    expect(screen.getAllByText("Motion Graphics")).toHaveLength(1);
+    expect(
+      within(screen.getByRole("group", { name: /design disciplines/i }))
+        .getAllByRole("listitem")
+        .filter((item) => item.textContent === "Motion Graphics"),
+    ).toHaveLength(1);
     expect(screen.getByTestId("cursor-trail")).toHaveAttribute(
       "aria-hidden",
       "true",

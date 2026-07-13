@@ -3,7 +3,7 @@ import { expect, test, type Page } from "@playwright/test";
 async function stabilizeForScreenshot(page: Page) {
   await page.addStyleTag({
     content: [
-      ".discipline-list{transform:none!important}",
+      ".discipline-track{transform:none!important}",
       ".reveal{opacity:1!important;transform:none!important}",
       ".cursor-trail{display:none!important}",
       "*{scroll-behavior:auto!important}",
@@ -55,7 +55,7 @@ test("reference desktop geometry uses the centered editorial grid", async ({ pag
   await page.goto("/");
   await page.addStyleTag({
     content:
-      ".discipline-list,.reveal{transform:none!important}.cursor-follower{display:none!important}",
+      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
   });
 
   const grid = page.locator(".hero__grid");
@@ -91,7 +91,7 @@ test("desktop layout keeps the editorial grid and menu overlay", async ({ page }
   await page.goto("/");
   await page.addStyleTag({
     content:
-      ".discipline-list,.reveal{transform:none!important}.cursor-follower{display:none!important}",
+      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
   });
 
   const heroHeading = page.getByRole("heading", { level: 1 });
@@ -140,7 +140,7 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   await page.goto("/");
   await page.addStyleTag({
     content:
-      ".discipline-list,.reveal{transform:none!important}.cursor-follower{display:none!important}",
+      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
   });
 
   const sizes = await page.evaluate(() => ({
@@ -166,43 +166,48 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   const firstCardBox = await cards.first().boundingBox();
   expect(firstCardBox!.width / firstCardBox!.height).toBeCloseTo(1.05, 1);
 
-  await expect(page).toHaveScreenshot("mobile-hero.png", {
+  await expect(page).toHaveScreenshot("target-mobile-hero.png", {
     animations: "disabled",
   });
 
   const about = page.locator("#about");
   await about.scrollIntoViewIfNeeded();
-  await expect(about).toHaveScreenshot("mobile-about.png", {
+  await expect(about).toHaveScreenshot("target-mobile-about.png", {
     animations: "disabled",
     maxDiffPixelRatio: 0.02,
   });
 });
 
-test("recording desktop scroll states", async ({ page }) => {
+test("target desktop scroll states", async ({ page }) => {
   await page.setViewportSize({ width: 2542, height: 1261 });
   await page.goto("/");
   await stabilizeForScreenshot(page);
 
   await page.evaluate(() => window.scrollTo(0, 0));
-  await expect(page).toHaveScreenshot("recording-desktop-hero.png", {
+  await expect(page).toHaveScreenshot("target-desktop-hero.png", {
+    animations: "disabled",
+  });
+
+  await page.evaluate(() => window.scrollTo(0, 80));
+  await expect(page).toHaveScreenshot("target-desktop-overlap.png", {
     animations: "disabled",
   });
 
   await page.locator("#projects").scrollIntoViewIfNeeded();
   await expect(page.locator("#projects")).toHaveScreenshot(
-    "recording-desktop-projects.png",
+    "target-desktop-project-grid.png",
     { animations: "disabled" },
   );
 
   await page.locator("#about").scrollIntoViewIfNeeded();
   await expect(page.locator("#about")).toHaveScreenshot(
-    "recording-desktop-about.png",
+    "target-desktop-about.png",
     { animations: "disabled" },
   );
 
   await page.locator("#contact").scrollIntoViewIfNeeded();
   await expect(page.locator("#contact")).toHaveScreenshot(
-    "recording-desktop-footer.png",
+    "target-desktop-footer.png",
     { animations: "disabled" },
   );
 });
@@ -212,7 +217,7 @@ test("reduced motion disables continuous landing-page motion", async ({ page }) 
   await page.goto("/");
   await expect(page.locator(".cursor-trail")).toHaveCSS("display", "none");
   await expect(page.locator("html")).toHaveCSS("cursor", "auto");
-  await expect(page.locator(".discipline-list")).toHaveCSS("transform", "none");
+  await expect(page.locator(".discipline-track")).toHaveCSS("transform", "none");
 });
 
 test("landing controls do not expose internal routes", async ({ page }) => {
