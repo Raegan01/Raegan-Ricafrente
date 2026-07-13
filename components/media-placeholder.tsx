@@ -13,10 +13,11 @@ export function MediaPlaceholder({
 }: MediaPlaceholderProps) {
   return (
     <div
+      aria-hidden="true"
       className={`media-placeholder ${className}`.trim()}
+      data-description={description}
       data-media-kind={kind}
-      role="group"
-      aria-label={description}
+      data-testid="media-placeholder"
     >
       <span className="media-placeholder__cross" aria-hidden="true" />
       <span className="media-placeholder__label">{label}</span>

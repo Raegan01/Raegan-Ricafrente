@@ -13,8 +13,8 @@ export function LandingPage() {
       <main>
         <Hero />
         <div className="landing-flow">
-          <AboutSection />
           <ProjectsSection />
+          <AboutSection />
         </div>
         <ContactSection />
       </main>

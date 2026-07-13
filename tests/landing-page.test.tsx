@@ -18,21 +18,31 @@ describe("LandingPage", () => {
     expect(document.querySelector("#contact")).toBeInTheDocument();
   });
 
-  it("contains four projects without inner-route links", () => {
+  it("renders the recorded three-project composition without inner links", () => {
     render(<LandingPage />);
-    const projects = screen.getByRole("region", { name: /selected projects/i });
+    const section = screen.getByRole("region", { name: /selected projects/i });
 
-    for (const name of [
-      "adidas x D.O.N.",
-      "Desk Mate",
-      "Ragas & Rhythms",
-      "Bound & Beyond",
-    ]) {
-      expect(within(projects).getByText(name)).toBeInTheDocument();
-    }
-
-    expect(within(projects).queryByRole("link")).not.toBeInTheDocument();
+    expect(within(section).getAllByRole("article")).toHaveLength(3);
+    expect(within(section).getByText("Desk Mate")).toBeInTheDocument();
+    expect(within(section).getByText("Ragas & Rhythms")).toBeInTheDocument();
+    expect(within(section).getByText("Bound & Beyond")).toBeInTheDocument();
+    expect(within(section).queryByText("adidas x D.O.N.")).not.toBeInTheDocument();
+    expect(within(section).queryByRole("link")).not.toBeInTheDocument();
     expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
+  });
+
+  it("orders projects, about, and contact like the recording", () => {
+    render(<LandingPage />);
+    const projects = document.querySelector("#projects")!;
+    const about = document.querySelector("#about")!;
+    const contact = document.querySelector("#contact")!;
+
+    expect(projects.compareDocumentPosition(about)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
+    expect(about.compareDocumentPosition(contact)).toBe(
+      Node.DOCUMENT_POSITION_FOLLOWING,
+    );
   });
 
   it("uses the visible email address as the mail target", () => {

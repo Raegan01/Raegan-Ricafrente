@@ -3,6 +3,8 @@ export type Project = {
   discipline: string;
   context: string;
   placeholderLabel: string;
+  layout: "feature" | "standard";
+  tone: "desk" | "ragas" | "bound";
 };
 
 export const navigation = [
@@ -25,28 +27,28 @@ export const disciplines = [
 
 export const projects: Project[] = [
   {
-    title: "adidas x D.O.N.",
-    discipline: "Pop-up Store",
-    context: "Retail & Brand Environment | Collaborative Project",
-    placeholderLabel: "PROJECT IMAGE 01",
-  },
-  {
     title: "Desk Mate",
     discipline: "D2C Lifestyle & Consumer",
     context: "Branding & Identity | Classroom Project",
-    placeholderLabel: "PROJECT IMAGE 02",
+    placeholderLabel: "PROJECT IMAGE 01",
+    layout: "feature",
+    tone: "desk",
   },
   {
     title: "Ragas & Rhythms",
     discipline: "Publication Design",
     context: "Design for Print | Classroom Project",
-    placeholderLabel: "PROJECT IMAGE 03",
+    placeholderLabel: "PROJECT IMAGE 02",
+    layout: "standard",
+    tone: "ragas",
   },
   {
     title: "Bound & Beyond",
     discipline: "D2C Lifestyle & Consumer",
     context: "System Thinking | Classroom Project",
-    placeholderLabel: "PROJECT IMAGE 04",
+    placeholderLabel: "PROJECT IMAGE 03",
+    layout: "standard",
+    tone: "bound",
   },
 ];
 

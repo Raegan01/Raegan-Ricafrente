@@ -12,11 +12,15 @@ describe("MediaPlaceholder", () => {
       />,
     );
 
-    const frame = screen.getByRole("group", {
-      name: "Future adidas project image",
-    });
+    const frame = screen.getByTestId("media-placeholder");
     expect(frame).toHaveAttribute("data-media-kind", "image");
+    expect(frame).toHaveAttribute(
+      "data-description",
+      "Future adidas project image",
+    );
+    expect(frame).toHaveAttribute("aria-hidden", "true");
     expect(screen.getByText("PROJECT IMAGE 01")).toBeInTheDocument();
+    expect(screen.queryByRole("group")).not.toBeInTheDocument();
     expect(screen.queryByRole("img")).not.toBeInTheDocument();
   });
 });
