@@ -954,6 +954,15 @@ h3 {
   will-change: transform;
 }
 
+@media (hover: hover) and (pointer: fine) {
+  html,
+  body,
+  a,
+  button {
+    cursor: none;
+  }
+}
+
 @media (min-width: 1200px) {
   .site-header {
     padding-right: 0;
@@ -1076,6 +1085,29 @@ h3 {
   }
 }
 
+@media (min-width: 810px) and (min-height: 700px) {
+  .hero-stage {
+    height: calc(100svh + 100px);
+  }
+
+  .hero {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+  }
+}
+
+@media (max-width: 809px), (max-height: 699px) {
+  .hero-stage {
+    height: 1030px;
+  }
+
+  .hero {
+    position: relative;
+    height: 844px;
+  }
+}
+
 @media (max-width: 809px) {
   :root {
     --page-gutter: 28px;
@@ -1103,12 +1135,7 @@ h3 {
     background: rgba(255, 255, 255, 0.9);
   }
 
-  .hero-stage {
-    height: 1030px;
-  }
-
   .hero {
-    height: 844px;
     padding: 364px 36px 20px;
   }
 

@@ -11,13 +11,12 @@ async function stabilizeForScreenshot(page: Page) {
   });
 }
 
-test("recording desktop keeps fixed controls over a normal-flow hero", async ({ page }) => {
+test("recording desktop keeps fixed controls over a pinned hero transition", async ({ page }) => {
   await page.setViewportSize({ width: 2542, height: 1261 });
   await page.goto("/");
 
   await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
   await expect(page.locator(".site-header__availability")).toBeVisible();
-  await expect(page.locator(".hero")).toHaveCSS("position", "relative");
 
   const heroBox = await page.locator(".hero-stage").boundingBox();
   const gridBox = await page.locator(".hero__grid").boundingBox();
@@ -30,12 +29,24 @@ test("recording desktop keeps fixed controls over a normal-flow hero", async ({ 
   expect(heroBox).not.toBeNull();
   expect(gridBox).not.toBeNull();
   expect(availabilityBox).not.toBeNull();
-  expect(heroBox!.height).toBeCloseTo(1261, 1);
+  expect(heroBox!.height).toBeCloseTo(1361, 1);
   expect(projectsTop).toBeCloseTo(heroBox!.height, 1);
   expect(availabilityBox!.x + availabilityBox!.width).toBeCloseTo(
     gridBox!.x + gridBox!.width,
     0,
   );
+
+  const title = page.locator("#hero-title");
+  const projects = page.locator("#projects");
+  const titleBefore = await title.boundingBox();
+  const projectsBefore = await projects.boundingBox();
+  await page.evaluate(() => window.scrollTo(0, 80));
+  await page.waitForFunction(() => window.scrollY === 80);
+  const titleAfter = await title.boundingBox();
+  const projectsAfter = await projects.boundingBox();
+  expect(Math.abs(titleAfter!.y - titleBefore!.y)).toBeLessThan(1);
+  expect(projectsAfter!.y).toBeLessThan(projectsBefore!.y - 70);
+  await expect(page.locator("html")).toHaveCSS("cursor", "none");
 });
 
 test("reference desktop geometry uses the centered editorial grid", async ({ page }) => {
