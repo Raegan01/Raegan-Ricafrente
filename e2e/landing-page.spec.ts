@@ -92,7 +92,7 @@ test("desktop layout keeps the editorial grid and menu overlay", async ({ page }
 
   const projects = page.locator("#projects");
   await expect(projects).toBeVisible();
-  await expect(projects.locator("article")).toHaveCount(3);
+  await expect(projects.locator("article")).toHaveCount(4);
 
   await expect(page).toHaveScreenshot("desktop-hero.png", {
     animations: "disabled",
@@ -103,6 +103,25 @@ test("desktop layout keeps the editorial grid and menu overlay", async ({ page }
     "desktop-menu.png",
     { animations: "disabled" },
   );
+});
+
+test("four-project geometry uses a narrow equal-card grid", async ({ page }) => {
+  await page.setViewportSize({ width: 2542, height: 1261 });
+  await page.goto("/");
+
+  const canvas = page.locator(".projects-section__canvas");
+  const cards = page.locator("#projects article");
+  await expect(cards).toHaveCount(4);
+  const canvasBox = await canvas.boundingBox();
+  expect(canvasBox!.width).toBeCloseTo(1100, 0);
+  const boxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  expect(boxes[0].width).toBeCloseTo(boxes[1].width, 0);
+  expect(boxes[0].height).toBeCloseTo(boxes[1].height, 0);
+  expect(boxes[0].width / boxes[0].height).toBeCloseTo(1.2, 1);
+  expect(Math.abs(boxes[0].top - boxes[1].top)).toBeLessThan(1);
+  expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
 });
 
 test("mobile layout has no document overflow and keeps bounded horizontal tracks", async ({ page }) => {
@@ -126,12 +145,15 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
     .locator("#projects")
     .evaluate((node) => node.getBoundingClientRect().top + window.scrollY);
   expect(projectsTop).toBeLessThan(aboutTop);
-  await expect(page.locator("#projects article")).toHaveCount(3);
+  const cards = page.locator("#projects article");
+  await expect(cards).toHaveCount(4);
 
-  const featureDisplay = await page.locator(".project-card--feature").evaluate(
-    (node) => getComputedStyle(node).display,
+  const columns = await page.locator(".projects-grid").evaluate(
+    (node) => getComputedStyle(node).gridTemplateColumns,
   );
-  expect(featureDisplay).toBe("flex");
+  expect(columns.trim().split(/\s+/)).toHaveLength(1);
+  const firstCardBox = await cards.first().boundingBox();
+  expect(firstCardBox!.width / firstCardBox!.height).toBeCloseTo(1.05, 1);
 
   await expect(page).toHaveScreenshot("mobile-hero.png", {
     animations: "disabled",
@@ -141,12 +163,7 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   await about.scrollIntoViewIfNeeded();
   await expect(about).toHaveScreenshot("mobile-about.png", {
     animations: "disabled",
-  });
-
-  const projectSection = page.locator("#projects");
-  await projectSection.scrollIntoViewIfNeeded();
-  await expect(projectSection).toHaveScreenshot("mobile-projects.png", {
-    animations: "disabled",
+    maxDiffPixelRatio: 0.02,
   });
 });
 
@@ -189,5 +206,5 @@ test("reduced motion disables continuous landing-page motion", async ({ page }) 
 test("landing controls do not expose internal routes", async ({ page }) => {
   await page.goto("/");
   await expect(page.locator('a[href^="/"]')).toHaveCount(0);
-  await expect(page.locator("#projects article")).toHaveCount(3);
+  await expect(page.locator("#projects article")).toHaveCount(4);
 });

@@ -9,7 +9,7 @@ export function ProjectsSection() {
       id="projects"
       aria-label="Selected projects"
     >
-      <div className="section-canvas">
+      <div className="section-canvas projects-section__canvas">
         <Reveal className="section-heading-row">
           <div>
             <p className="eyebrow">[ Project ]</p>
