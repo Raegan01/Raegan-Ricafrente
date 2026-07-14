@@ -935,7 +935,7 @@ h3 {
 
 .cursor-trail {
   position: fixed;
-  z-index: 90;
+  z-index: 110;
   inset: 0;
   pointer-events: none;
 }
@@ -953,10 +953,10 @@ h3 {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  html,
-  body,
-  a,
-  button {
+  html.cursor-trail-active,
+  html.cursor-trail-active body,
+  html.cursor-trail-active a,
+  html.cursor-trail-active button {
     cursor: none;
   }
 }
@@ -1083,7 +1083,7 @@ h3 {
   }
 }
 
-@media (min-width: 810px) and (min-height: 700px) {
+@media (min-width: 810px) and (min-height: 700px) and (hover: hover) and (pointer: fine) {
   .hero-stage {
     height: calc(100svh + 100px);
   }

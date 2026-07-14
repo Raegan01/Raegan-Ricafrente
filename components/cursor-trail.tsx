@@ -4,12 +4,14 @@ import {
   motion,
   type MotionValue,
   useMotionValue,
-  useReducedMotion,
   useSpring,
 } from "motion/react";
 import { useEffect } from "react";
 
 const trailSegments = Array.from({ length: 18 }, (_, index) => index);
+const activeCursorClass = "cursor-trail-active";
+const activeCursorQuery =
+  "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)";
 
 function CursorSegment({
   index,
@@ -35,21 +37,39 @@ function CursorSegment({
 }
 
 export function CursorTrail() {
-  const reducedMotion = useReducedMotion();
   const rawX = useMotionValue(-100);
   const rawY = useMotionValue(-100);
 
   useEffect(() => {
-    if (reducedMotion || !window.matchMedia("(pointer: fine)").matches) return;
+    const cursorMedia = window.matchMedia(activeCursorQuery);
+    const root = document.documentElement;
 
     const move = (event: PointerEvent) => {
       rawX.set(event.clientX - 5);
       rawY.set(event.clientY - 5);
     };
 
-    window.addEventListener("pointermove", move, { passive: true });
-    return () => window.removeEventListener("pointermove", move);
-  }, [rawX, rawY, reducedMotion]);
+    const deactivate = () => {
+      window.removeEventListener("pointermove", move);
+      root.classList.remove(activeCursorClass);
+    };
+
+    const updateActivation = () => {
+      deactivate();
+      if (!cursorMedia.matches) return;
+
+      window.addEventListener("pointermove", move, { passive: true });
+      root.classList.add(activeCursorClass);
+    };
+
+    updateActivation();
+    cursorMedia.addEventListener("change", updateActivation);
+
+    return () => {
+      cursorMedia.removeEventListener("change", updateActivation);
+      deactivate();
+    };
+  }, [rawX, rawY]);
 
   return (
     <span aria-hidden="true" className="cursor-trail" data-testid="cursor-trail">

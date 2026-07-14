@@ -53,10 +53,7 @@ test("reference desktop geometry uses the centered editorial grid", async ({ pag
   const viewport = { width: 2542, height: 1261 };
   await page.setViewportSize(viewport);
   await page.goto("/");
-  await page.addStyleTag({
-    content:
-      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
-  });
+  await stabilizeForScreenshot(page);
 
   const grid = page.locator(".hero__grid");
   await expect(grid).toBeVisible();
@@ -89,10 +86,7 @@ test("reference desktop geometry uses the centered editorial grid", async ({ pag
 test("desktop layout keeps the editorial grid and menu overlay", async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto("/");
-  await page.addStyleTag({
-    content:
-      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
-  });
+  await stabilizeForScreenshot(page);
 
   const heroHeading = page.getByRole("heading", { level: 1 });
   await expect(heroHeading).toContainText("Design is my");
@@ -138,10 +132,7 @@ test("four-project geometry uses a narrow equal-card grid", async ({ page }) => 
 test("mobile layout has no document overflow and keeps bounded horizontal tracks", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
-  await page.addStyleTag({
-    content:
-      ".discipline-track,.reveal{transform:none!important}.cursor-follower{display:none!important}",
-  });
+  await stabilizeForScreenshot(page);
 
   const sizes = await page.evaluate(() => ({
     client: document.documentElement.clientWidth,
@@ -231,8 +222,58 @@ test("reduced motion disables continuous landing-page motion", async ({ page }) 
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   await expect(page.locator(".cursor-trail")).toHaveCSS("display", "none");
+  await expect(page.locator("html")).not.toHaveClass(/cursor-trail-active/);
   await expect(page.locator("html")).toHaveCSS("cursor", "auto");
   await expect(page.locator(".discipline-track")).toHaveCSS("transform", "none");
+});
+
+test("fine input keeps the custom cursor above the open menu", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 720 });
+  await page.goto("/");
+  await expect(page.locator("html")).toHaveClass(/cursor-trail-active/);
+  await expect(page.locator("html")).toHaveCSS("cursor", "none");
+
+  await page.getByRole("button", { name: /open menu/i }).click();
+  await page.mouse.move(640, 360);
+
+  const menu = page.getByRole("dialog", { name: /site menu/i });
+  const cursor = page.locator(".cursor-trail");
+  const leadingSegment = cursor.locator('[data-segment-index="0"]');
+  await expect(menu).toBeVisible();
+  await expect(cursor).toBeVisible();
+  await expect(leadingSegment).toBeVisible();
+  await expect
+    .poll(async () => (await leadingSegment.boundingBox())?.x ?? -1)
+    .toBeGreaterThan(600);
+  const [menuZIndex, cursorZIndex] = await Promise.all([
+    menu.evaluate((node) => Number.parseInt(getComputedStyle(node).zIndex, 10)),
+    cursor.evaluate((node) => Number.parseInt(getComputedStyle(node).zIndex, 10)),
+  ]);
+  expect(cursorZIndex).toBeGreaterThan(menuZIndex);
+});
+
+test("wide touch input keeps the hero in normal flow", async ({
+  baseURL,
+  browser,
+}) => {
+  const context = await browser.newContext({
+    baseURL,
+    hasTouch: true,
+    viewport: { width: 1280, height: 720 },
+  });
+  const page = await context.newPage();
+
+  try {
+    await page.goto("/");
+    expect(
+      await page.evaluate(() => matchMedia("(pointer: coarse)").matches),
+    ).toBe(true);
+    await expect(page.locator(".hero")).toHaveCSS("position", "relative");
+    await expect(page.locator("html")).not.toHaveClass(/cursor-trail-active/);
+    await expect(page.locator("html")).toHaveCSS("cursor", "auto");
+  } finally {
+    await context.close();
+  }
 });
 
 test("landing controls do not expose internal routes", async ({ page }) => {
