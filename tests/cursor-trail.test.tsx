@@ -104,9 +104,13 @@ describe("CursorTrail", () => {
     );
 
     const pointerAdds = () =>
-      addEventListener.mock.calls.filter(([type]) => type === "pointermove");
+      addEventListener.mock.calls.filter(
+        ([type]) => String(type) === "pointermove",
+      );
     const pointerRemovals = () =>
-      removeEventListener.mock.calls.filter(([type]) => type === "pointermove");
+      removeEventListener.mock.calls.filter(
+        ([type]) => String(type) === "pointermove",
+      );
 
     expect(document.documentElement).toHaveClass("cursor-trail-active");
     expect(pointerAdds()).toHaveLength(1);
@@ -156,7 +160,9 @@ describe("CursorTrail", () => {
 
     expect(document.documentElement).not.toHaveClass("cursor-trail-active");
     expect(
-      addEventListener.mock.calls.filter(([type]) => type === "pointermove"),
+      addEventListener.mock.calls.filter(
+        ([type]) => String(type) === "pointermove",
+      ),
     ).toHaveLength(0);
   });
 
@@ -171,7 +177,9 @@ describe("CursorTrail", () => {
 
     expect(document.documentElement).not.toHaveClass("cursor-trail-active");
     expect(
-      addEventListener.mock.calls.filter(([type]) => type === "pointermove"),
+      addEventListener.mock.calls.filter(
+        ([type]) => String(type) === "pointermove",
+      ),
     ).toHaveLength(0);
   });
 });
