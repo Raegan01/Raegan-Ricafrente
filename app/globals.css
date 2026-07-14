@@ -281,6 +281,7 @@ h3 {
 .landing-flow {
   position: relative;
   z-index: 2;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   background: var(--paper);
@@ -1084,14 +1085,22 @@ h3 {
 }
 
 @media (min-width: 810px) and (min-height: 700px) and (hover: hover) and (pointer: fine) {
+  main {
+    --hero-cover-distance: 100svh;
+  }
+
   .hero-stage {
-    height: calc(100svh + 100px);
+    height: calc(100svh + var(--hero-cover-distance));
   }
 
   .hero {
     position: sticky;
     top: 0;
     height: 100svh;
+  }
+
+  .landing-flow {
+    margin-top: calc(-1 * var(--hero-cover-distance));
   }
 }
 

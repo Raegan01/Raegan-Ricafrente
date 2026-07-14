@@ -12,25 +12,19 @@ async function stabilizeForScreenshot(page: Page) {
 }
 
 test("recording desktop keeps fixed controls over a pinned hero transition", async ({ page }) => {
-  await page.setViewportSize({ width: 2542, height: 1261 });
+  const viewport = { width: 2542, height: 1261 };
+  await page.setViewportSize(viewport);
   await page.goto("/");
 
   await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
   await expect(page.locator(".site-header__availability")).toBeVisible();
 
-  const heroBox = await page.locator(".hero-stage").boundingBox();
   const gridBox = await page.locator(".hero__grid").boundingBox();
   const availabilityBox = await page
     .locator(".site-header__availability")
     .boundingBox();
-  const projectsTop = await page.locator("#projects").evaluate(
-    (node) => node.getBoundingClientRect().top + window.scrollY,
-  );
-  expect(heroBox).not.toBeNull();
   expect(gridBox).not.toBeNull();
   expect(availabilityBox).not.toBeNull();
-  expect(heroBox!.height).toBeCloseTo(1361, 1);
-  expect(projectsTop).toBeCloseTo(heroBox!.height, 1);
   expect(availabilityBox!.x + availabilityBox!.width).toBeCloseTo(
     gridBox!.x + gridBox!.width,
     0,
@@ -38,14 +32,29 @@ test("recording desktop keeps fixed controls over a pinned hero transition", asy
 
   const title = page.locator("#hero-title");
   const projects = page.locator("#projects");
-  const titleBefore = await title.boundingBox();
-  const projectsBefore = await projects.boundingBox();
-  await page.evaluate(() => window.scrollTo(0, 80));
-  await page.waitForFunction(() => window.scrollY === 80);
-  const titleAfter = await title.boundingBox();
-  const projectsAfter = await projects.boundingBox();
-  expect(Math.abs(titleAfter!.y - titleBefore!.y)).toBeLessThan(1);
-  expect(projectsAfter!.y).toBeLessThan(projectsBefore!.y - 70);
+  const titleStart = await title.boundingBox();
+  const projectsStart = await projects.boundingBox();
+
+  expect(projectsStart!.y).toBeCloseTo(viewport.height, 0);
+
+  const earlyScroll = Math.round(viewport.height * 0.25);
+  await page.evaluate((top) => window.scrollTo(0, top), earlyScroll);
+  await page.waitForFunction((top) => window.scrollY === top, earlyScroll);
+  const titleEarly = await title.boundingBox();
+  const projectsEarly = await projects.boundingBox();
+
+  expect(Math.abs(titleEarly!.y - titleStart!.y)).toBeLessThan(1);
+  expect(projectsEarly!.y).toBeLessThan(viewport.height);
+  expect(projectsStart!.y - projectsEarly!.y).toBeCloseTo(earlyScroll, 0);
+
+  const deepScroll = Math.round(viewport.height * 0.75);
+  await page.evaluate((top) => window.scrollTo(0, top), deepScroll);
+  await page.waitForFunction((top) => window.scrollY === top, deepScroll);
+  const titleDeep = await title.boundingBox();
+  const projectsDeep = await projects.boundingBox();
+
+  expect(Math.abs(titleDeep!.y - titleStart!.y)).toBeLessThan(1);
+  expect(projectsDeep!.y).toBeLessThan(viewport.height * 0.3);
   await expect(page.locator("html")).toHaveCSS("cursor", "none");
 });
 
@@ -269,6 +278,16 @@ test("wide touch input keeps the hero in normal flow", async ({
       await page.evaluate(() => matchMedia("(pointer: coarse)").matches),
     ).toBe(true);
     await expect(page.locator(".hero")).toHaveCSS("position", "relative");
+    await expect(page.locator(".landing-flow")).toHaveCSS("margin-top", "0px");
+    const heroBottom = await page.locator(".hero-stage").evaluate((node) => {
+      const rect = node.getBoundingClientRect();
+      return rect.top + window.scrollY + rect.height;
+    });
+    const projectsTop = await page.locator("#projects").evaluate((node) => {
+      const rect = node.getBoundingClientRect();
+      return rect.top + window.scrollY;
+    });
+    expect(projectsTop).toBeCloseTo(heroBottom, 0);
     await expect(page.locator("html")).not.toHaveClass(/cursor-trail-active/);
     await expect(page.locator("html")).toHaveCSS("cursor", "auto");
   } finally {
