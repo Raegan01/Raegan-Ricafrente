@@ -16,55 +16,63 @@ function installMatchMedia(initialState: MediaState) {
   }> = [];
 
   const matches = (query: string) => {
-    if (query.includes("prefers-reduced-motion: reduce")) {
-      return state.reducedMotion;
+    const requiresHover = query.includes("(hover: hover)");
+    const requiresFinePointer = query.includes("(pointer: fine)");
+    const requiresReducedMotion = query.includes(
+      "(prefers-reduced-motion: reduce)",
+    );
+    const requiresNoReducedMotion = query.includes(
+      "(prefers-reduced-motion: no-preference)",
+    );
+
+    if (
+      !requiresHover &&
+      !requiresFinePointer &&
+      !requiresReducedMotion &&
+      !requiresNoReducedMotion
+    ) {
+      return false;
     }
 
-    if (query.includes("prefers-reduced-motion: no-preference")) {
-      return (
-        state.hoverCapable && state.finePointer && !state.reducedMotion
-      );
-    }
-
-    if (query.includes("pointer: fine")) {
-      return state.finePointer;
-    }
-
-    if (query.includes("hover: hover")) {
-      return state.hoverCapable;
-    }
-
-    return false;
+    return (
+      (!requiresHover || state.hoverCapable) &&
+      (!requiresFinePointer || state.finePointer) &&
+      (!requiresReducedMotion || state.reducedMotion) &&
+      (!requiresNoReducedMotion || !state.reducedMotion)
+    );
   };
 
-  vi.spyOn(window, "matchMedia").mockImplementation((query: string) => {
-    const listeners = new Set<(event: MediaQueryListEvent) => void>();
-    const mediaQuery = {
-      get matches() {
-        return matches(query);
-      },
-      media: query,
-      onchange: null,
-      addEventListener: (
-        _type: string,
-        listener: EventListenerOrEventListenerObject,
-      ) => listeners.add(listener as (event: MediaQueryListEvent) => void),
-      removeEventListener: (
-        _type: string,
-        listener: EventListenerOrEventListenerObject,
-      ) => listeners.delete(listener as (event: MediaQueryListEvent) => void),
-      addListener: (listener: (event: MediaQueryListEvent) => void) =>
-        listeners.add(listener),
-      removeListener: (listener: (event: MediaQueryListEvent) => void) =>
-        listeners.delete(listener),
-      dispatchEvent: () => true,
-    } as MediaQueryList;
+  const matchMedia = vi
+    .spyOn(window, "matchMedia")
+    .mockImplementation((query: string) => {
+      const listeners = new Set<(event: MediaQueryListEvent) => void>();
+      const mediaQuery = {
+        get matches() {
+          return matches(query);
+        },
+        media: query,
+        onchange: null,
+        addEventListener: (
+          _type: string,
+          listener: EventListenerOrEventListenerObject,
+        ) => listeners.add(listener as (event: MediaQueryListEvent) => void),
+        removeEventListener: (
+          _type: string,
+          listener: EventListenerOrEventListenerObject,
+        ) => listeners.delete(listener as (event: MediaQueryListEvent) => void),
+        addListener: (listener: (event: MediaQueryListEvent) => void) =>
+          listeners.add(listener),
+        removeListener: (listener: (event: MediaQueryListEvent) => void) =>
+          listeners.delete(listener),
+        dispatchEvent: () => true,
+      } as MediaQueryList;
 
-    queries.push({ listeners, mediaQuery });
-    return mediaQuery;
-  });
+      queries.push({ listeners, mediaQuery });
+      return mediaQuery;
+    });
 
   return {
+    matchMedia,
     setState(nextState: MediaState) {
       state = nextState;
       for (const { listeners, mediaQuery } of queries) {
@@ -90,6 +98,10 @@ describe("CursorTrail", () => {
       reducedMotion: false,
     });
     const { unmount } = render(<CursorTrail />);
+
+    expect(media.matchMedia).toHaveBeenCalledWith(
+      "(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+    );
 
     const pointerAdds = () =>
       addEventListener.mock.calls.filter(([type]) => type === "pointermove");
