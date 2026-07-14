@@ -174,7 +174,6 @@ test("mobile layout has no document overflow and keeps bounded horizontal tracks
   await about.scrollIntoViewIfNeeded();
   await expect(about).toHaveScreenshot("target-mobile-about.png", {
     animations: "disabled",
-    maxDiffPixelRatio: 0.02,
   });
 });
 
