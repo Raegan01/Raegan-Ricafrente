@@ -190,16 +190,25 @@ test("target desktop scroll states", async ({ page }) => {
     animations: "disabled",
   });
 
-  await page.evaluate(() => window.scrollTo(0, 180));
-  await page.waitForFunction(() => window.scrollY === 180);
-  const projectsBox = await page.locator("#projects").boundingBox();
-  expect(projectsBox).not.toBeNull();
-  expect(projectsBox!.y).toBeLessThan(viewport.height);
-  const overlapScreenshot = await page.screenshot({
+  const earlyScroll = Math.round(viewport.height * 0.25);
+  await page.evaluate((top) => window.scrollTo(0, top), earlyScroll);
+  await page.waitForFunction((top) => window.scrollY === top, earlyScroll);
+  const earlyProjectsBox = await page.locator("#projects").boundingBox();
+  expect(earlyProjectsBox!.y).toBeLessThan(viewport.height);
+  const earlyScreenshot = await page.screenshot({ animations: "disabled" });
+  expect(earlyScreenshot.equals(heroScreenshot)).toBe(false);
+  await expect(page).toHaveScreenshot("target-desktop-overlap.png", {
     animations: "disabled",
   });
-  expect(overlapScreenshot.equals(heroScreenshot)).toBe(false);
-  await expect(page).toHaveScreenshot("target-desktop-overlap.png", {
+
+  const deepScroll = Math.round(viewport.height * 0.75);
+  await page.evaluate((top) => window.scrollTo(0, top), deepScroll);
+  await page.waitForFunction((top) => window.scrollY === top, deepScroll);
+  const deepProjectsBox = await page.locator("#projects").boundingBox();
+  expect(deepProjectsBox!.y).toBeLessThan(viewport.height * 0.3);
+  const deepScreenshot = await page.screenshot({ animations: "disabled" });
+  expect(deepScreenshot.equals(earlyScreenshot)).toBe(false);
+  await expect(page).toHaveScreenshot("target-desktop-deep-overlap.png", {
     animations: "disabled",
   });
 
