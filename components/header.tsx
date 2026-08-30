@@ -23,7 +23,11 @@ export function Header() {
       frame = 0;
       const projectsTop = projects.getBoundingClientRect().top;
       const headerBottom = header.getBoundingClientRect().bottom;
-      header.dataset.projectsStuck = String(projectsTop <= headerBottom);
+      const isProjectsStuck = String(projectsTop <= headerBottom);
+
+      if (header.dataset.projectsStuck !== isProjectsStuck) {
+        header.dataset.projectsStuck = isProjectsStuck;
+      }
     };
 
     const scheduleStickyUpdate = () => {

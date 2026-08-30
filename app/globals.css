@@ -9,6 +9,7 @@
   --page-gutter: 50px;
   --desktop-canvas: 1320px;
   --header-height: 93px;
+  --sticky-header-height: calc(var(--header-height) + 36px);
   --radius: 12px;
 }
 
@@ -20,7 +21,7 @@ html {
   max-width: 100%;
   overflow-x: clip;
   scroll-behavior: smooth;
-  scroll-padding-top: var(--header-height);
+  scroll-padding-top: var(--sticky-header-height);
 }
 
 body {
@@ -118,7 +119,7 @@ h3 {
   left: 0;
   display: flex;
   width: 100%;
-  height: calc(var(--header-height) + 36px);
+  height: var(--sticky-header-height);
   align-items: flex-start;
   justify-content: space-between;
   padding: 21px var(--page-gutter) 0;

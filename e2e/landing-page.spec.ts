@@ -82,12 +82,61 @@ test("header enters its sticky section state when the Projects divider reaches i
 
   await page.evaluate(
     (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight + 1,
+    projectsTop - headerHeight,
   );
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
   await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
 
   await page.evaluate((top) => window.scrollTo(0, top), projectsTop + 900);
+  await expect(header).toHaveAttribute("data-projects-stuck", "true");
+});
+
+test("mobile header activates at the exact Projects divider boundary", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const header = page.locator(".site-header");
+  const projects = page.locator("#projects");
+  const headerHeight = await header.evaluate(
+    (node) => node.getBoundingClientRect().height,
+  );
+  const projectsTop = await projects.evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return rect.top + window.scrollY;
+  });
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight,
+  );
+
+  await expect(header).toHaveAttribute("data-projects-stuck", "true");
+  await expect(projects).toHaveCSS("border-top-width", "1px");
+});
+
+test("Projects menu link lands below the opaque sticky header", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const header = page.locator(".site-header");
+  const projects = page.locator("#projects");
+  const headerHeight = await header.evaluate(
+    (node) => node.getBoundingClientRect().height,
+  );
+
+  await page.getByRole("button", { name: /open menu/i }).click();
+  await page
+    .getByRole("dialog", { name: /site menu/i })
+    .getByRole("link", { name: "Projects", exact: true })
+    .click();
+
+  await expect
+    .poll(async () => (await projects.boundingBox())?.y ?? -1)
+    .toBeCloseTo(headerHeight, 0);
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
 });
 
