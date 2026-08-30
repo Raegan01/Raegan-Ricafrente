@@ -22,11 +22,23 @@ export function Header() {
     const updateStickyState = () => {
       frame = 0;
       const projectsTop = projects.getBoundingClientRect().top;
-      const headerBottom = header.getBoundingClientRect().bottom;
-      const isProjectsStuck = String(projectsTop <= headerBottom);
+      const headerHeight = header.getBoundingClientRect().height;
+      const pushOffset = Math.max(
+        -headerHeight,
+        Math.min(0, projectsTop - headerHeight),
+      );
+      const isProjectsStuck = String(projectsTop <= headerHeight);
+      const pushOffsetValue = `${pushOffset}px`;
 
       if (header.dataset.projectsStuck !== isProjectsStuck) {
         header.dataset.projectsStuck = isProjectsStuck;
+      }
+
+      if (
+        header.style.getPropertyValue("--header-push-offset") !==
+        pushOffsetValue
+      ) {
+        header.style.setProperty("--header-push-offset", pushOffsetValue);
       }
     };
 

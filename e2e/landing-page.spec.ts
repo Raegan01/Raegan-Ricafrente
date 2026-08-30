@@ -58,7 +58,7 @@ test("recording desktop keeps fixed controls over a pinned hero transition", asy
   await expect(page.locator("html")).toHaveCSS("cursor", "none");
 });
 
-test("header enters its sticky section state when the Projects divider reaches it", async ({
+test("Projects divider pushes the header upward after contact and restores it on reverse scroll", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
@@ -87,11 +87,58 @@ test("header enters its sticky section state when the Projects divider reaches i
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
   await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
 
-  await page.evaluate((top) => window.scrollTo(0, top), projectsTop + 900);
+  const pushDistance = 64;
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight + pushDistance,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-pushDistance, 0);
+  await expect
+    .poll(async () => {
+      const headerBox = await header.boundingBox();
+      const projectsBox = await projects.boundingBox();
+      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
+    })
+    .toBeCloseTo(0, 0);
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop + headerHeight + 50,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-headerHeight, 0);
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
+
+  const reverseDistance = 32;
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight + reverseDistance,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-reverseDistance, 0);
+  await expect
+    .poll(async () => {
+      const headerBox = await header.boundingBox();
+      const projectsBox = await projects.boundingBox();
+      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
+    })
+    .toBeCloseTo(0, 0);
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight - 1,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(0, 0);
+  await expect(header).toHaveAttribute("data-projects-stuck", "false");
 });
 
-test("mobile header activates at the exact Projects divider boundary", async ({
+test("mobile Projects divider pushes and restores the header at the contact boundary", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -114,6 +161,31 @@ test("mobile header activates at the exact Projects divider boundary", async ({
 
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
   await expect(projects).toHaveCSS("border-top-width", "1px");
+
+  const pushDistance = 40;
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight + pushDistance,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-pushDistance, 0);
+  await expect
+    .poll(async () => {
+      const headerBox = await header.boundingBox();
+      const projectsBox = await projects.boundingBox();
+      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
+    })
+    .toBeCloseTo(0, 0);
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight - 1,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(0, 0);
+  await expect(header).toHaveAttribute("data-projects-stuck", "false");
 });
 
 test("Projects menu link lands below the opaque sticky header", async ({

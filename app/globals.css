@@ -126,9 +126,11 @@ h3 {
   border-bottom: 1px solid transparent;
   background: transparent;
   pointer-events: none;
+  transform: translateY(var(--header-push-offset, 0px));
   transition:
     background-color 180ms ease,
     border-color 180ms ease;
+  will-change: transform;
 }
 
 .site-header[data-projects-stuck="true"] {
