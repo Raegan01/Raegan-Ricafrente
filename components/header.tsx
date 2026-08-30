@@ -1,12 +1,47 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrandMark } from "@/components/brand-mark";
 import { MenuOverlay } from "@/components/menu-overlay";
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    const projects = document.getElementById("projects");
+
+    if (!header || !projects) {
+      return;
+    }
+
+    let frame = 0;
+
+    const updateStickyState = () => {
+      frame = 0;
+      const projectsTop = projects.getBoundingClientRect().top;
+      const headerBottom = header.getBoundingClientRect().bottom;
+      header.dataset.projectsStuck = String(projectsTop <= headerBottom);
+    };
+
+    const scheduleStickyUpdate = () => {
+      if (frame === 0) {
+        frame = window.requestAnimationFrame(updateStickyState);
+      }
+    };
+
+    updateStickyState();
+    window.addEventListener("scroll", scheduleStickyUpdate, { passive: true });
+    window.addEventListener("resize", scheduleStickyUpdate);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleStickyUpdate);
+      window.removeEventListener("resize", scheduleStickyUpdate);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
 
   const closeMenu = () => {
     setOpen(false);
@@ -15,7 +50,11 @@ export function Header() {
 
   return (
     <>
-      <header className="site-header">
+      <header
+        className="site-header"
+        data-projects-stuck="false"
+        ref={headerRef}
+      >
         <div className="site-header__inner">
           <a className="site-header__brand" href="#home" aria-label="Ananya Mehrotra — Home">
             <BrandMark className="site-header__mark" />

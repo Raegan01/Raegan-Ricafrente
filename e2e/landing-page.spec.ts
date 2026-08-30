@@ -58,6 +58,39 @@ test("recording desktop keeps fixed controls over a pinned hero transition", asy
   await expect(page.locator("html")).toHaveCSS("cursor", "none");
 });
 
+test("header enters its sticky section state when the Projects divider reaches it", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/");
+
+  const header = page.locator(".site-header");
+  const projects = page.locator("#projects");
+  const headerHeight = await header.evaluate(
+    (node) => node.getBoundingClientRect().height,
+  );
+  const projectsTop = await projects.evaluate((node) => {
+    const rect = node.getBoundingClientRect();
+    return rect.top + window.scrollY;
+  });
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight - 1,
+  );
+  await expect(header).toHaveAttribute("data-projects-stuck", "false");
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight + 1,
+  );
+  await expect(header).toHaveAttribute("data-projects-stuck", "true");
+  await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+
+  await page.evaluate((top) => window.scrollTo(0, top), projectsTop + 900);
+  await expect(header).toHaveAttribute("data-projects-stuck", "true");
+});
+
 test("reference desktop geometry uses the centered editorial grid", async ({ page }) => {
   const viewport = { width: 2542, height: 1261 };
   await page.setViewportSize(viewport);

@@ -118,11 +118,21 @@ h3 {
   left: 0;
   display: flex;
   width: 100%;
-  height: var(--header-height);
+  height: calc(var(--header-height) + 36px);
   align-items: flex-start;
   justify-content: space-between;
   padding: 21px var(--page-gutter) 0;
+  border-bottom: 1px solid transparent;
+  background: transparent;
   pointer-events: none;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
+}
+
+.site-header[data-projects-stuck="true"] {
+  border-bottom-color: var(--line);
+  background: var(--paper);
 }
 
 .site-header__brand,
