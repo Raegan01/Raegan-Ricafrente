@@ -156,11 +156,23 @@ test("mobile Projects divider pushes and restores the header at the contact boun
 
   await page.evaluate(
     (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight - 1,
+  );
+  await expect(header).toHaveAttribute("data-projects-stuck", "false");
+  await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(header).toHaveCSS("border-bottom-color", "rgba(0, 0, 0, 0)");
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
     projectsTop - headerHeight,
   );
 
   await expect(header).toHaveAttribute("data-projects-stuck", "true");
-  await expect(projects).toHaveCSS("border-top-width", "1px");
+  await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+  await expect(header).not.toHaveCSS(
+    "border-bottom-color",
+    "rgba(0, 0, 0, 0)",
+  );
 
   const pushDistance = 40;
   await page.evaluate(
@@ -180,12 +192,38 @@ test("mobile Projects divider pushes and restores the header at the contact boun
 
   await page.evaluate(
     (top) => window.scrollTo(0, top),
+    projectsTop + headerHeight + 50,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-headerHeight, 0);
+
+  const reverseDistance = 24;
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
+    projectsTop - headerHeight + reverseDistance,
+  );
+  await expect
+    .poll(async () => (await header.boundingBox())?.y ?? 1)
+    .toBeCloseTo(-reverseDistance, 0);
+  await expect
+    .poll(async () => {
+      const headerBox = await header.boundingBox();
+      const projectsBox = await projects.boundingBox();
+      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
+    })
+    .toBeCloseTo(0, 0);
+
+  await page.evaluate(
+    (top) => window.scrollTo(0, top),
     projectsTop - headerHeight - 1,
   );
   await expect
     .poll(async () => (await header.boundingBox())?.y ?? 1)
     .toBeCloseTo(0, 0);
   await expect(header).toHaveAttribute("data-projects-stuck", "false");
+  await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+  await expect(header).toHaveCSS("border-bottom-color", "rgba(0, 0, 0, 0)");
 });
 
 test("Projects menu link lands below the opaque sticky header", async ({
