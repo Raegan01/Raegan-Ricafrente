@@ -344,7 +344,7 @@ h3 {
 }
 
 .projects-grid {
-  --project-hover-duration: 900ms;
+  --project-hover-duration: 2000ms;
 
   display: grid;
   gap: 10px;
@@ -352,7 +352,7 @@ h3 {
 
 .projects-grid__row {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
 }
 

@@ -337,6 +337,7 @@ test("adidas hover expands only its project row and reveals the decorative arrow
   await page.goto("/");
 
   const cards = page.locator("#projects article");
+  const topRow = page.locator(".projects-grid__row").first();
   const adidas = cards.nth(0);
   const adidasContent = adidas.locator(".project-card__content");
   const arrow = adidas.locator(".project-card__arrow");
@@ -347,8 +348,18 @@ test("adidas hover expands only its project row and reveals the decorative arrow
   const initialContentBottomGap =
     initialBoxes[0].bottom -
     (initialContentBox!.y + initialContentBox!.height);
+  await expect(topRow).toHaveCSS("transition-duration", "2s");
 
   await adidas.hover();
+  await page.waitForTimeout(250);
+
+  const midTransitionBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  const midTransitionRatio =
+    midTransitionBoxes[0].width / midTransitionBoxes[1].width;
+  expect(midTransitionRatio).toBeGreaterThan(1.05);
+  expect(midTransitionRatio).toBeLessThan(1.45);
 
   await expect
     .poll(async () => {
