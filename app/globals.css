@@ -345,13 +345,21 @@ h3 {
 
 .projects-grid {
   display: grid;
+  gap: 10px;
+  container-type: inline-size;
+}
+
+.projects-grid__row {
+  display: grid;
+  height: calc(41.666667cqw - 4.166667px);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
 
 .project-card {
   position: relative;
-  aspect-ratio: 1.2;
+  min-width: 0;
+  height: 100%;
   overflow: hidden;
   border-radius: 12px;
   color: white;
@@ -383,6 +391,7 @@ h3 {
   bottom: 26px;
   left: 30px;
   font-family: "IBM Plex Mono", monospace;
+  transition: bottom 450ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card__content h3 {
@@ -396,6 +405,60 @@ h3 {
   margin: 5px 0 0;
   font-size: 12px;
   font-weight: 600;
+}
+
+.project-card__arrow {
+  position: absolute;
+  z-index: 2;
+  bottom: 34px;
+  left: 30px;
+  display: grid;
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(20, 24, 26, 0.12);
+  border-radius: 50%;
+  opacity: 0;
+  color: #14181a;
+  background: #fff;
+  pointer-events: none;
+  place-items: center;
+  transform: translateY(10px);
+  transition:
+    opacity 220ms ease,
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-card__arrow svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+}
+
+@media (min-width: 810px) and (hover: hover) and (pointer: fine) {
+  .projects-grid__row:first-child {
+    transition: grid-template-columns 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .projects-grid__row:first-child:has(.project-card--adidas:hover) {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  }
+
+  .project-card--adidas:hover {
+    transform: none;
+  }
+
+  .project-card--adidas:hover .project-card__content {
+    bottom: 98px;
+  }
+
+  .project-card--adidas:hover .project-card__arrow {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .project-card--adidas .media-placeholder {
@@ -1444,7 +1507,12 @@ h3 {
     gap: 18px;
   }
 
+  .projects-grid__row {
+    display: contents;
+  }
+
   .project-card {
+    height: auto;
     aspect-ratio: 1.05;
   }
 

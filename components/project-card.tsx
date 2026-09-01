@@ -15,6 +15,13 @@ export function ProjectCard({ project }: { project: Project }) {
         <p>{project.discipline}</p>
         <p>{project.context}</p>
       </div>
+      {project.tone === "adidas" ? (
+        <span className="project-card__arrow" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M5 12h13M13 7l5 5-5 5" />
+          </svg>
+        </span>
+      ) : null}
     </article>
   );
 }

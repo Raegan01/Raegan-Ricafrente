@@ -2,6 +2,8 @@ import { ProjectCard } from "@/components/project-card";
 import { Reveal } from "@/components/reveal";
 import { projects } from "@/data/site-content";
 
+const projectRows = [projects.slice(0, 2), projects.slice(2)];
+
 export function ProjectsSection() {
   return (
     <section
@@ -26,8 +28,12 @@ export function ProjectsSection() {
           </span>
         </Reveal>
         <div className="projects-grid" id="projects-grid">
-          {projects.map((project) => (
-            <ProjectCard key={project.title} project={project} />
+          {projectRows.map((row) => (
+            <div className="projects-grid__row" key={row[0].title}>
+              {row.map((project) => (
+                <ProjectCard key={project.title} project={project} />
+              ))}
+            </div>
           ))}
         </div>
       </div>

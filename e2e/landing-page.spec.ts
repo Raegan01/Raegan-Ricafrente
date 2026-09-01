@@ -330,6 +330,70 @@ test("four-project geometry uses a narrow equal-card grid", async ({ page }) => 
   expect(boxes[2].top).toBeGreaterThan(boxes[0].bottom);
 });
 
+test("adidas hover expands only its project row and reveals the decorative arrow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 2542, height: 1101 });
+  await page.goto("/");
+
+  const cards = page.locator("#projects article");
+  const adidas = cards.nth(0);
+  const arrow = adidas.locator(".project-card__arrow");
+  const initialBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+
+  await adidas.hover();
+
+  await expect
+    .poll(async () => {
+      const boxes = await cards.evaluateAll((nodes) =>
+        nodes.map((node) => node.getBoundingClientRect()),
+      );
+      return boxes[0].width / boxes[1].width;
+    })
+    .toBeCloseTo(1.5, 1);
+  await expect(arrow).toHaveCSS("opacity", "1");
+
+  const hoveredBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  expect(Math.abs(hoveredBoxes[0].height - hoveredBoxes[1].height)).toBeLessThan(1);
+  expect(Math.abs(hoveredBoxes[2].width - hoveredBoxes[3].width)).toBeLessThan(1);
+  expect(hoveredBoxes[2].width).toBeCloseTo(initialBoxes[2].width, 0);
+  expect(hoveredBoxes[3].width).toBeCloseTo(initialBoxes[3].width, 0);
+
+  await page.mouse.move(0, 0);
+
+  await expect
+    .poll(async () => {
+      const boxes = await cards.evaluateAll((nodes) =>
+        nodes.map((node) => node.getBoundingClientRect()),
+      );
+      return Math.abs(boxes[0].width - boxes[1].width);
+    })
+    .toBeLessThan(1);
+  await expect(arrow).toHaveCSS("opacity", "0");
+});
+
+test("mobile keeps equal project widths and hides the adidas hover arrow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/");
+
+  const cards = page.locator("#projects article");
+  const adidas = cards.nth(0);
+  const initialWidth = (await adidas.boundingBox())!.width;
+
+  await adidas.hover();
+
+  await expect
+    .poll(async () => (await adidas.boundingBox())!.width)
+    .toBeCloseTo(initialWidth, 0);
+  await expect(adidas.locator(".project-card__arrow")).toHaveCSS("opacity", "0");
+});
+
 test("mobile layout has no document overflow and keeps bounded horizontal tracks", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
