@@ -338,10 +338,15 @@ test("adidas hover expands only its project row and reveals the decorative arrow
 
   const cards = page.locator("#projects article");
   const adidas = cards.nth(0);
+  const adidasContent = adidas.locator(".project-card__content");
   const arrow = adidas.locator(".project-card__arrow");
   const initialBoxes = await cards.evaluateAll((nodes) =>
     nodes.map((node) => node.getBoundingClientRect()),
   );
+  const initialContentBox = await adidasContent.boundingBox();
+  const initialContentBottomGap =
+    initialBoxes[0].bottom -
+    (initialContentBox!.y + initialContentBox!.height);
 
   await adidas.hover();
 
@@ -354,6 +359,13 @@ test("adidas hover expands only its project row and reveals the decorative arrow
     })
     .toBeCloseTo(1.5, 1);
   await expect(arrow).toHaveCSS("opacity", "1");
+  await expect
+    .poll(async () => {
+      const cardBox = await adidas.boundingBox();
+      const contentBox = await adidasContent.boundingBox();
+      return cardBox!.y + cardBox!.height - (contentBox!.y + contentBox!.height);
+    })
+    .toBeGreaterThan(initialContentBottomGap + 50);
 
   const hoveredBoxes = await cards.evaluateAll((nodes) =>
     nodes.map((node) => node.getBoundingClientRect()),
@@ -374,6 +386,13 @@ test("adidas hover expands only its project row and reveals the decorative arrow
     })
     .toBeLessThan(1);
   await expect(arrow).toHaveCSS("opacity", "0");
+  await expect
+    .poll(async () => {
+      const cardBox = await adidas.boundingBox();
+      const contentBox = await adidasContent.boundingBox();
+      return cardBox!.y + cardBox!.height - (contentBox!.y + contentBox!.height);
+    })
+    .toBeCloseTo(initialContentBottomGap, 0);
 });
 
 test("mobile keeps equal project widths and hides the adidas hover arrow", async ({
@@ -392,6 +411,12 @@ test("mobile keeps equal project widths and hides the adidas hover arrow", async
     .poll(async () => (await adidas.boundingBox())!.width)
     .toBeCloseTo(initialWidth, 0);
   await expect(adidas.locator(".project-card__arrow")).toHaveCSS("opacity", "0");
+
+  const sizes = await page.evaluate(() => ({
+    client: document.documentElement.clientWidth,
+    scroll: document.documentElement.scrollWidth,
+  }));
+  expect(sizes.scroll).toBe(sizes.client);
 });
 
 test("mobile layout has no document overflow and keeps bounded horizontal tracks", async ({ page }) => {

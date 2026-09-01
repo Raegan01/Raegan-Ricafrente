@@ -346,12 +346,10 @@ h3 {
 .projects-grid {
   display: grid;
   gap: 10px;
-  container-type: inline-size;
 }
 
 .projects-grid__row {
   display: grid;
-  height: calc(41.666667cqw - 4.166667px);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
 }
@@ -359,7 +357,8 @@ h3 {
 .project-card {
   position: relative;
   min-width: 0;
-  height: 100%;
+  aspect-ratio: 1.2;
+  height: auto;
   overflow: hidden;
   border-radius: 12px;
   color: white;
@@ -438,26 +437,43 @@ h3 {
   stroke-width: 1.5;
 }
 
-@media (min-width: 810px) and (hover: hover) and (pointer: fine) {
-  .projects-grid__row:first-child {
-    transition: grid-template-columns 450ms cubic-bezier(0.22, 1, 0.36, 1);
+@supports (container-type: inline-size) and (height: 1cqw) {
+  .projects-grid {
+    container-type: inline-size;
   }
 
-  .projects-grid__row:first-child:has(.project-card--adidas:hover) {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  .projects-grid__row {
+    height: calc(41.666667cqw - 4.166667px);
   }
 
-  .project-card--adidas:hover {
-    transform: none;
+  .project-card {
+    aspect-ratio: auto;
+    height: 100%;
   }
+}
 
-  .project-card--adidas:hover .project-card__content {
-    bottom: 98px;
-  }
+@supports selector(:has(*)) {
+  @media (min-width: 810px) and (hover: hover) and (pointer: fine) {
+    .projects-grid__row:first-child {
+      transition: grid-template-columns 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
 
-  .project-card--adidas:hover .project-card__arrow {
-    opacity: 1;
-    transform: translateY(0);
+    .projects-grid__row:first-child:has(.project-card--adidas:hover) {
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    }
+
+    .project-card--adidas:hover {
+      transform: none;
+    }
+
+    .project-card--adidas:hover .project-card__content {
+      bottom: 98px;
+    }
+
+    .project-card--adidas:hover .project-card__arrow {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
 
