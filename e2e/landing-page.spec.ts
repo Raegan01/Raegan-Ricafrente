@@ -340,14 +340,23 @@ test("adidas hover expands only its project row and reveals the decorative arrow
   const topRow = page.locator(".projects-grid__row").first();
   const adidas = cards.nth(0);
   const adidasContent = adidas.locator(".project-card__content");
+  const projectContext = adidasContent.locator("p").last();
   const arrow = adidas.locator(".project-card__arrow");
   const initialBoxes = await cards.evaluateAll((nodes) =>
     nodes.map((node) => node.getBoundingClientRect()),
   );
   const initialContentBox = await adidasContent.boundingBox();
+  const initialContextBox = await projectContext.boundingBox();
+  const initialArrowBox = await arrow.boundingBox();
   const initialContentBottomGap =
     initialBoxes[0].bottom -
     (initialContentBox!.y + initialContentBox!.height);
+  expect(
+    await arrow.evaluate((node) =>
+      node.parentElement?.classList.contains("project-card__content"),
+    ),
+  ).toBe(true);
+  expect(initialArrowBox!.y).toBeGreaterThanOrEqual(initialBoxes[0].bottom - 1);
   await expect(topRow).toHaveCSS("transition-duration", "1.25s");
 
   await adidas.hover();
@@ -370,6 +379,16 @@ test("adidas hover expands only its project row and reveals the decorative arrow
     })
     .toBeCloseTo(1.5, 1);
   await expect(arrow).toHaveCSS("opacity", "1");
+  const hoveredContextBox = await projectContext.boundingBox();
+  const hoveredArrowBox = await arrow.boundingBox();
+  const arrowGap =
+    hoveredArrowBox!.y -
+    (hoveredContextBox!.y + hoveredContextBox!.height);
+  expect(arrowGap).toBeGreaterThanOrEqual(24);
+  expect(arrowGap).toBeLessThanOrEqual(28);
+  const contextTravel = initialContextBox!.y - hoveredContextBox!.y;
+  const arrowTravel = initialArrowBox!.y - hoveredArrowBox!.y;
+  expect(arrowTravel).toBeCloseTo(contextTravel, 0);
   await expect
     .poll(async () => {
       const cardBox = await adidas.boundingBox();

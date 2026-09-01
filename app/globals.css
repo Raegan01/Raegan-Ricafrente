@@ -409,13 +409,10 @@ h3 {
 }
 
 .project-card__arrow {
-  position: absolute;
-  z-index: 2;
-  bottom: 34px;
-  left: 30px;
-  display: grid;
+  display: none;
   width: 46px;
   height: 46px;
+  margin-top: 26px;
   border: 1px solid rgba(20, 24, 26, 0.12);
   border-radius: 50%;
   opacity: 0;
@@ -423,10 +420,7 @@ h3 {
   background: #fff;
   pointer-events: none;
   place-items: center;
-  transform: translateY(10px);
-  transition:
-    opacity var(--project-hover-duration) ease,
-    transform var(--project-hover-duration) cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity var(--project-hover-duration) ease;
 }
 
 .project-card__arrow svg {
@@ -468,13 +462,20 @@ h3 {
       transform: none;
     }
 
+    .project-card--adidas .project-card__content {
+      bottom: -46px;
+    }
+
+    .project-card--adidas .project-card__arrow {
+      display: grid;
+    }
+
     .project-card--adidas:hover .project-card__content {
-      bottom: 98px;
+      bottom: 34px;
     }
 
     .project-card--adidas:hover .project-card__arrow {
       opacity: 1;
-      transform: translateY(0);
     }
   }
 }
