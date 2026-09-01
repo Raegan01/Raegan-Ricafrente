@@ -348,7 +348,7 @@ test("adidas hover expands only its project row and reveals the decorative arrow
   const initialContentBottomGap =
     initialBoxes[0].bottom -
     (initialContentBox!.y + initialContentBox!.height);
-  await expect(topRow).toHaveCSS("transition-duration", "2s");
+  await expect(topRow).toHaveCSS("transition-duration", "1.25s");
 
   await adidas.hover();
   await page.waitForTimeout(250);

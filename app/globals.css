@@ -344,7 +344,7 @@ h3 {
 }
 
 .projects-grid {
-  --project-hover-duration: 2000ms;
+  --project-hover-duration: 1250ms;
 
   display: grid;
   gap: 10px;
