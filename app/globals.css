@@ -344,6 +344,8 @@ h3 {
 }
 
 .projects-grid {
+  --project-hover-duration: 900ms;
+
   display: grid;
   gap: 10px;
 }
@@ -390,7 +392,7 @@ h3 {
   bottom: 26px;
   left: 30px;
   font-family: "IBM Plex Mono", monospace;
-  transition: bottom 450ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: bottom var(--project-hover-duration) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card__content h3 {
@@ -423,8 +425,8 @@ h3 {
   place-items: center;
   transform: translateY(10px);
   transition:
-    opacity 220ms ease,
-    transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+    opacity var(--project-hover-duration) ease,
+    transform var(--project-hover-duration) cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card__arrow svg {
@@ -455,7 +457,7 @@ h3 {
 @supports selector(:has(*)) {
   @media (min-width: 810px) and (hover: hover) and (pointer: fine) {
     .projects-grid__row:first-child {
-      transition: grid-template-columns 450ms cubic-bezier(0.22, 1, 0.36, 1);
+      transition: grid-template-columns var(--project-hover-duration) cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .projects-grid__row:first-child:has(.project-card--adidas:hover) {
