@@ -2,7 +2,10 @@ import { MediaPlaceholder } from "@/components/media-placeholder";
 import type { Project } from "@/data/site-content";
 
 export function ProjectCard({ project }: { project: Project }) {
-  const hasHoverReveal = project.tone === "adidas" || project.tone === "ragas";
+  const hasHoverReveal =
+    project.tone === "adidas" ||
+    project.tone === "desk" ||
+    project.tone === "ragas";
 
   return (
     <article className={`project-card project-card--${project.tone}`}>

@@ -425,6 +425,85 @@ test("adidas hover expands only its project row and reveals the decorative arrow
     .toBeCloseTo(initialContentBottomGap, 0);
 });
 
+test("Desk Mate hover expands the right card and reveals its editorial arrow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 2542, height: 1101 });
+  await page.goto("/");
+
+  const cards = page.locator("#projects article");
+  const topRow = page.locator(".projects-grid__row").first();
+  const deskMate = cards.nth(1);
+  const deskContent = deskMate.locator(".project-card__content");
+  const projectContext = deskContent.locator("p").last();
+  const arrow = deskMate.locator(".project-card__arrow");
+  await expect(arrow).toHaveCount(1);
+
+  const initialBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  const initialContextBox = await projectContext.boundingBox();
+  const initialArrowBox = await arrow.boundingBox();
+  expect(
+    await arrow.evaluate((node) =>
+      node.parentElement?.classList.contains("project-card__content"),
+    ),
+  ).toBe(true);
+  expect(initialArrowBox!.y).toBeGreaterThanOrEqual(initialBoxes[1].bottom - 1);
+  await expect(arrow).toHaveCSS("opacity", "0");
+  await expect(topRow).toHaveCSS("transition-duration", "1.25s");
+
+  await deskMate.hover();
+  await page.waitForTimeout(250);
+
+  const midTransitionBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  const midTransitionRatio =
+    midTransitionBoxes[1].width / midTransitionBoxes[0].width;
+  expect(midTransitionRatio).toBeGreaterThan(1.05);
+  expect(midTransitionRatio).toBeLessThan(1.45);
+
+  await expect
+    .poll(async () => {
+      const boxes = await cards.evaluateAll((nodes) =>
+        nodes.map((node) => node.getBoundingClientRect()),
+      );
+      return boxes[1].width / boxes[0].width;
+    })
+    .toBeCloseTo(1.5, 1);
+  await expect(arrow).toHaveCSS("opacity", "1");
+
+  const hoveredBoxes = await cards.evaluateAll((nodes) =>
+    nodes.map((node) => node.getBoundingClientRect()),
+  );
+  const hoveredContextBox = await projectContext.boundingBox();
+  const hoveredArrowBox = await arrow.boundingBox();
+  const arrowGap =
+    hoveredArrowBox!.y -
+    (hoveredContextBox!.y + hoveredContextBox!.height);
+  expect(arrowGap).toBeGreaterThanOrEqual(24);
+  expect(arrowGap).toBeLessThanOrEqual(28);
+  expect(initialArrowBox!.y - hoveredArrowBox!.y).toBeCloseTo(
+    initialContextBox!.y - hoveredContextBox!.y,
+    0,
+  );
+  expect(hoveredBoxes[2].width).toBeCloseTo(initialBoxes[2].width, 0);
+  expect(hoveredBoxes[3].width).toBeCloseTo(initialBoxes[3].width, 0);
+
+  await page.mouse.move(0, 0);
+
+  await expect
+    .poll(async () => {
+      const boxes = await cards.evaluateAll((nodes) =>
+        nodes.map((node) => node.getBoundingClientRect()),
+      );
+      return Math.abs(boxes[0].width - boxes[1].width);
+    })
+    .toBeLessThan(1);
+  await expect(arrow).toHaveCSS("opacity", "0");
+});
+
 test("Ragas hover mirrors the editorial expansion within its own row", async ({
   page,
 }) => {
