@@ -458,27 +458,27 @@ h3 {
       grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     }
 
-    .projects-grid__row:has(.project-card--desk:hover) {
+    .projects-grid__row:has(:is(.project-card--desk, .project-card--bound):hover) {
       grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
     }
 
-    :is(.project-card--adidas, .project-card--desk, .project-card--ragas):hover {
+    :is(.project-card--adidas, .project-card--bound, .project-card--desk, .project-card--ragas):hover {
       transform: none;
     }
 
-    :is(.project-card--adidas, .project-card--desk, .project-card--ragas) .project-card__content {
+    :is(.project-card--adidas, .project-card--bound, .project-card--desk, .project-card--ragas) .project-card__content {
       bottom: -46px;
     }
 
-    :is(.project-card--adidas, .project-card--desk, .project-card--ragas) .project-card__arrow {
+    :is(.project-card--adidas, .project-card--bound, .project-card--desk, .project-card--ragas) .project-card__arrow {
       display: grid;
     }
 
-    :is(.project-card--adidas, .project-card--desk, .project-card--ragas):hover .project-card__content {
+    :is(.project-card--adidas, .project-card--bound, .project-card--desk, .project-card--ragas):hover .project-card__content {
       bottom: 34px;
     }
 
-    :is(.project-card--adidas, .project-card--desk, .project-card--ragas):hover .project-card__arrow {
+    :is(.project-card--adidas, .project-card--bound, .project-card--desk, .project-card--ragas):hover .project-card__arrow {
       opacity: 1;
     }
   }

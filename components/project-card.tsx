@@ -4,6 +4,7 @@ import type { Project } from "@/data/site-content";
 export function ProjectCard({ project }: { project: Project }) {
   const hasHoverReveal =
     project.tone === "adidas" ||
+    project.tone === "bound" ||
     project.tone === "desk" ||
     project.tone === "ragas";
 
