@@ -715,6 +715,83 @@ test("About portrait placeholder matches the clean stacked-card reference", asyn
   expect(mobileSizes.scroll).toBe(mobileSizes.client);
 });
 
+test("About portrait hover straightens and enlarges only the front card", async ({
+  page,
+  browser,
+}) => {
+  const desktop = page;
+  await desktop.setViewportSize({ width: 2540, height: 1100 });
+  await desktop.goto("/");
+  const stack = desktop.locator(".about-section__portrait-stack");
+  const front = stack.locator(".about-section__portrait");
+  const back = stack.locator(".about-section__portrait-layer");
+  await stack.scrollIntoViewIfNeeded();
+
+  const initialFrontTransform = await front.evaluate(
+    (node) => getComputedStyle(node).transform,
+  );
+  const initialBackTransform = await back.evaluate(
+    (node) => getComputedStyle(node).transform,
+  );
+  await expect(front).toHaveCSS("transition-duration", "0.5s");
+
+  await stack.hover();
+  await desktop.waitForTimeout(250);
+  const midMatrix = await front.evaluate((node) => {
+    const matrix = new DOMMatrix(getComputedStyle(node).transform);
+    return { a: matrix.a, b: matrix.b };
+  });
+  expect(midMatrix.a).toBeGreaterThan(1.01);
+  expect(Math.abs(midMatrix.b)).toBeLessThan(0.03);
+
+  await expect
+    .poll(() =>
+      front.evaluate((node) => {
+        const matrix = new DOMMatrix(getComputedStyle(node).transform);
+        return [matrix.a, matrix.b, matrix.c, matrix.d];
+      }),
+    )
+    .toEqual([1.06, 0, 0, 1.06]);
+  await expect(back).toHaveCSS("transform", initialBackTransform);
+
+  await desktop.mouse.move(0, 0);
+  await expect(front).toHaveCSS("transform", initialFrontTransform);
+
+  const reducedContext = await browser.newContext({
+    baseURL: "http://localhost:3000",
+    reducedMotion: "reduce",
+    viewport: { width: 2540, height: 1100 },
+  });
+  const reducedPage = await reducedContext.newPage();
+  await reducedPage.goto("/");
+  const reducedStack = reducedPage.locator(".about-section__portrait-stack");
+  const reducedFront = reducedStack.locator(".about-section__portrait");
+  await reducedStack.scrollIntoViewIfNeeded();
+  const reducedTransform = await reducedFront.evaluate(
+    (node) => getComputedStyle(node).transform,
+  );
+  await reducedStack.hover();
+  await reducedPage.waitForTimeout(50);
+  await expect(reducedFront).toHaveCSS("transform", reducedTransform);
+  await reducedContext.close();
+
+  const mobileContext = await browser.newContext({
+    baseURL: "http://localhost:3000",
+    viewport: { width: 390, height: 844 },
+  });
+  const mobile = await mobileContext.newPage();
+  await mobile.goto("/");
+  const mobileStack = mobile.locator(".about-section__portrait-stack");
+  const mobileFront = mobileStack.locator(".about-section__portrait");
+  await mobileStack.scrollIntoViewIfNeeded();
+  const mobileTransform = await mobileFront.evaluate(
+    (node) => getComputedStyle(node).transform,
+  );
+  await mobileStack.hover();
+  await expect(mobileFront).toHaveCSS("transform", mobileTransform);
+  await mobileContext.close();
+});
+
 test("mobile keeps equal project widths and hides the adidas hover arrow", async ({
   page,
 }) => {
