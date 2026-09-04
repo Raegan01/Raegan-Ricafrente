@@ -38,7 +38,7 @@ export function Footer() {
           a.
         </span>
       </div>
-      <small>© 2026 Ananya Mehrotra. All rights reserved.</small>
+      <small>© 2026 Raegan Ricafrente. All rights reserved.</small>
     </footer>
   );
 }

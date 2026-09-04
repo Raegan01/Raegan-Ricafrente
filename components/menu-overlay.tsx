@@ -66,9 +66,9 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
         <a className="menu-overlay__brand" href="#home" onClick={onClose}>
           <BrandMark className="menu-overlay__mark" inverted />
           <span>
-            Ananya
+            Raegan
             <br />
-            Mehrotra
+            Ricafrente
           </span>
         </a>
         <button

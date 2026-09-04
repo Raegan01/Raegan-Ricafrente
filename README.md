@@ -1,6 +1,6 @@
 # Ananya Portfolio Landing Page
 
-Single-page Next.js recreation of the Ananya Mehrotra portfolio homepage.
+Single-page Next.js recreation of the Raegan Ricafrente portfolio homepage.
 
 ## Commands
 

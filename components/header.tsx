@@ -72,12 +72,12 @@ export function Header() {
         ref={headerRef}
       >
         <div className="site-header__inner">
-          <a className="site-header__brand" href="#home" aria-label="Ananya Mehrotra — Home">
+          <a className="site-header__brand" href="#home" aria-label="Raegan Ricafrente — Home">
             <BrandMark className="site-header__mark" />
             <span>
-              Ananya
+              Raegan
               <br />
-              Mehrotra
+              Ricafrente
             </span>
           </a>
           <p className="site-header__availability">[ Available for project ]</p>

@@ -7,9 +7,9 @@ import "@fontsource/ibm-plex-mono/700.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Ananya Mehrotra — Communication Designer",
+  title: "Raegan Ricafrente — Communication Designer",
   description:
-    "Portfolio landing page for communication designer Ananya Mehrotra.",
+    "Portfolio landing page for communication designer Raegan Ricafrente.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

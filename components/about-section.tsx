@@ -12,14 +12,14 @@ export function AboutSection() {
             <span aria-hidden="true" className="about-section__portrait-layer" />
             <MediaPlaceholder
               className="about-section__portrait"
-              description="Future portrait illustration of Ananya Mehrotra"
+              description="Future portrait illustration of Raegan Ricafrente"
               kind="image"
               label="PORTRAIT IMAGE"
             />
           </div>
         </div>
         <Reveal className="about-section__content">
-          <h2 id="about-title">Hi, I&apos;m Ananya Mehrotra</h2>
+          <h2 id="about-title">Hi, I&apos;m Raegan Ricafrente</h2>
           <h3>Communication Designer</h3>
           <p className="about-section__copy">
             who blends logic with creativity to craft minimal, thoughtful work,

@@ -2,7 +2,7 @@
 
 ## Objective
 
-Build a new Next.js landing page that recreates the visual language, responsive composition, and interaction behavior of the public Ananya Mehrotra Framer homepage. The implementation must be a single-page application with no inner pages. Image and video assets will initially be represented by labeled neutral placeholders that preserve the original geometry and cropping behavior.
+Build a new Next.js landing page that recreates the visual language, responsive composition, and interaction behavior of the public Raegan Ricafrente Framer homepage. The implementation must be a single-page application with no inner pages. Image and video assets will initially be represented by labeled neutral placeholders that preserve the original geometry and cropping behavior.
 
 ## Scope
 
@@ -81,7 +81,7 @@ Composes all sections and owns no interaction state beyond page-level layout.
 
 ### `Header`
 
-Renders the reconstructed identity mark, “Ananya Mehrotra” wordmark, and menu trigger. It remains fixed over the page and exposes a semantic button to open the menu.
+Renders the reconstructed identity mark, “Raegan Ricafrente” wordmark, and menu trigger. It remains fixed over the page and exposes a semantic button to open the menu.
 
 ### `MenuOverlay`
 

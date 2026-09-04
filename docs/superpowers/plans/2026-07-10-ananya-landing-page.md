@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a single-route Next.js portfolio landing page that reproduces the inspected Ananya Mehrotra homepage at desktop and mobile sizes, using labeled neutral media placeholders instead of real media.
+**Goal:** Build a single-route Next.js portfolio landing page that reproduces the inspected Raegan Ricafrente homepage at desktop and mobile sizes, using labeled neutral media placeholders instead of real media.
 
 **Architecture:** A Next.js App Router page composes focused client and server components from typed local content. Custom CSS owns the reference geometry and responsive recomposition; Motion owns progressive enhancement for menu, reveal, ticker, and hover behavior. Unit tests cover structure and interaction, while Playwright covers responsive geometry, overflow, and visual states.
 
@@ -361,7 +361,7 @@ export const socials = [
 
 Implement `BrandMark`, `Hero`, `AboutSection`, `ProjectsSection`, and `ContactSection` as semantic components. `LandingPage` must render them inside `<main>`, with `Hero` at `#home`, About at `#about`, Projects at `#projects`, and Contact at `#contact`. Project items must be `<article>` elements, not links.
 
-Create `app/layout.tsx` with `Inter`, `IBM_Plex_Mono`, and `Outfit` from `next/font/google`, assign CSS variables, import `app/globals.css`, and set metadata title `Ananya Mehrotra — Communication Designer`.
+Create `app/layout.tsx` with `Inter`, `IBM_Plex_Mono`, and `Outfit` from `next/font/google`, assign CSS variables, import `app/globals.css`, and set metadata title `Raegan Ricafrente — Communication Designer`.
 
 Create `app/page.tsx`:
 
@@ -792,7 +792,7 @@ Create `README.md` containing:
 ```markdown
 # Ananya Portfolio Landing Page
 
-Single-page Next.js recreation of the Ananya Mehrotra portfolio homepage.
+Single-page Next.js recreation of the Raegan Ricafrente portfolio homepage.
 
 ## Commands
 

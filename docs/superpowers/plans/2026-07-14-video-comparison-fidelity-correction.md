@@ -57,7 +57,7 @@ expect(cards.map((card) => within(card).getByRole("heading", { level: 3 }).textC
   .toEqual(["adidas x D.O.N.", "Desk Mate", "Ragas & Rhythms", "Bound & Beyond"]);
 expect(within(section).queryByRole("link")).not.toBeInTheDocument();
 expect(within(section).queryByRole("button")).not.toBeInTheDocument();
-expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
 expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
   "href", "mailto:ananya.dezign@gmail.com",
 );
@@ -285,7 +285,7 @@ const ticker = screen.getByRole("group", { name: /design disciplines/i });
 expect(within(ticker).getAllByRole("listitem").map((item) => item.textContent).slice(0, 5))
   .toEqual(["Spatial / Exhibition Design", "Layout", "Branding", "3D", "Publication"]);
 expect(ticker.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
-expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
 expect(screen.getByRole("heading", { name: /let's create something/i })).toBeInTheDocument();
 expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
   "href", expect.stringContaining("drive.google.com"),

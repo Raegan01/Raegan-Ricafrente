@@ -63,7 +63,7 @@ All media surfaces use neutral placeholders with the recorded dimensions, aspect
 
 The About section is separated by a horizontal rule and uses a two-column layout.
 
-The left column contains `[ About ]`, `Why Choose Me`, and a layered, slightly rotated portrait-placeholder composition. The right column contains `Hi, I'm Ananya Mehrotra`, the large monospaced role `Communication Designer`, descriptive copy, and a dark `Learn More` pill. `Learn More` has visual interaction feedback but does not open an inner page.
+The left column contains `[ About ]`, `Why Choose Me`, and a layered, slightly rotated portrait-placeholder composition. The right column contains `Hi, I'm Raegan Ricafrente`, the large monospaced role `Communication Designer`, descriptive copy, and a dark `Learn More` pill. `Learn More` has visual interaction feedback but does not open an inner page.
 
 Below About, the centered CTA prelude contains:
 

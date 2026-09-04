@@ -15,6 +15,7 @@ test("recording desktop keeps fixed controls over a pinned hero transition", asy
   const viewport = { width: 2542, height: 1261 };
   await page.setViewportSize(viewport);
   await page.goto("/");
+  await expect(page).toHaveTitle("Raegan Ricafrente — Communication Designer");
 
   await expect(page.locator(".site-header")).toHaveCSS("position", "fixed");
   await expect(page.locator(".site-header__availability")).toBeVisible();

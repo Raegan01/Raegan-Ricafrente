@@ -17,6 +17,9 @@ describe("Header menu", () => {
     expect(
       screen.getByRole("dialog", { name: /site menu/i }),
     ).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: /raegan ricafrente/i }),
+    ).toHaveAttribute("href", "#home");
     expect(document.body.style.overflow).toBe("hidden");
 
     await user.keyboard("{Escape}");

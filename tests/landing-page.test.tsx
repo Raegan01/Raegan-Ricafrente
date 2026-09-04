@@ -3,6 +3,19 @@ import { describe, expect, it } from "vitest";
 import { LandingPage } from "@/components/landing-page";
 
 describe("LandingPage", () => {
+  it("presents Raegan Ricafrente as the portfolio identity", () => {
+    render(<LandingPage />);
+
+    expect(
+      screen.getByRole("link", { name: "Raegan Ricafrente — Home" }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
+    expect(
+      screen.getByText("© 2026 Raegan Ricafrente. All rights reserved."),
+    ).toBeInTheDocument();
+    expect(document.body).not.toHaveTextContent(/Ananya\s+Mehrotra/);
+  });
+
   it("renders the approved single-page sections and copy", () => {
     render(<LandingPage />);
 
@@ -37,7 +50,7 @@ describe("LandingPage", () => {
       "Publication",
     ]);
     expect(ticker.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
-    expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+    expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
     expect(
       screen.getByRole("heading", { name: /let's create something/i }),
     ).toBeInTheDocument();
@@ -68,7 +81,7 @@ describe("LandingPage", () => {
     ]);
     expect(within(section).queryByRole("link")).not.toBeInTheDocument();
     expect(within(section).queryByRole("button")).not.toBeInTheDocument();
-    expect(screen.getByText("Hi, I'm Ananya Mehrotra")).toBeInTheDocument();
+    expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
       "href",
       "mailto:ananya.dezign@gmail.com",
