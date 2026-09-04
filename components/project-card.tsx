@@ -2,6 +2,8 @@ import { MediaPlaceholder } from "@/components/media-placeholder";
 import type { Project } from "@/data/site-content";
 
 export function ProjectCard({ project }: { project: Project }) {
+  const hasHoverReveal = project.tone === "adidas" || project.tone === "ragas";
+
   return (
     <article className={`project-card project-card--${project.tone}`}>
       <MediaPlaceholder
@@ -14,7 +16,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <h3>{project.title}</h3>
         <p>{project.discipline}</p>
         <p>{project.context}</p>
-        {project.tone === "adidas" ? (
+        {hasHoverReveal ? (
           <span className="project-card__arrow" aria-hidden="true">
             <svg viewBox="0 0 24 24" focusable="false">
               <path d="M5 12h13M13 7l5 5-5 5" />

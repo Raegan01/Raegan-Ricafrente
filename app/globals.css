@@ -450,31 +450,31 @@ h3 {
 
 @supports selector(:has(*)) {
   @media (min-width: 810px) and (hover: hover) and (pointer: fine) {
-    .projects-grid__row:first-child {
+    .projects-grid__row {
       transition: grid-template-columns var(--project-hover-duration) cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .projects-grid__row:first-child:has(.project-card--adidas:hover) {
+    .projects-grid__row:has(:is(.project-card--adidas, .project-card--ragas):hover) {
       grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
     }
 
-    .project-card--adidas:hover {
+    :is(.project-card--adidas, .project-card--ragas):hover {
       transform: none;
     }
 
-    .project-card--adidas .project-card__content {
+    :is(.project-card--adidas, .project-card--ragas) .project-card__content {
       bottom: -46px;
     }
 
-    .project-card--adidas .project-card__arrow {
+    :is(.project-card--adidas, .project-card--ragas) .project-card__arrow {
       display: grid;
     }
 
-    .project-card--adidas:hover .project-card__content {
+    :is(.project-card--adidas, .project-card--ragas):hover .project-card__content {
       bottom: 34px;
     }
 
-    .project-card--adidas:hover .project-card__arrow {
+    :is(.project-card--adidas, .project-card--ragas):hover .project-card__arrow {
       opacity: 1;
     }
   }
