@@ -8,11 +8,12 @@ export function BrandMark({ inverted = false, className = "" }: BrandMarkProps) 
     <svg
       aria-hidden="true"
       className={className}
+      data-brand-letter="R"
       fill="none"
       viewBox="0 0 52 50"
     >
       <path
-        d="M9 5h27v7H9zM3 12h42v8H3zM0 20h10v21H0zM10 20h30v7H10zM10 34h30v7H10zM34 20h10v29H34zM44 42h8v7h-8z"
+        d="M0 5h10v44H0zM3 5h33v7H3zM10 12h30v8H10zM34 12h10v20H34zM10 27h30v8H10zM26 35h12v7H26zM33 40h12v7H33zM42 45h10v5H42z"
         fill={inverted ? "#fff" : "currentColor"}
       />
     </svg>
