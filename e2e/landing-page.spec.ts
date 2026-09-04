@@ -662,6 +662,59 @@ test("Bound & Beyond hover expands the right card with its editorial reveal", as
   await expect(arrow).toHaveCSS("opacity", "0");
 });
 
+test("About portrait placeholder matches the clean stacked-card reference", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 2540, height: 1100 });
+  await page.goto("/");
+
+  const about = page.locator("#about");
+  await about.scrollIntoViewIfNeeded();
+  const stack = about.locator(".about-section__portrait-stack");
+  const backCard = stack.locator(".about-section__portrait-layer");
+  const frontCard = stack.locator(".about-section__portrait");
+
+  await expect(stack).toHaveCSS("width", "270px");
+  await expect(stack).toHaveCSS("height", "340px");
+  await expect(frontCard).toHaveCSS("background-color", "rgb(53, 98, 171)");
+  await expect(frontCard).toHaveCSS("background-image", "none");
+  await expect(frontCard).toHaveCSS("border-radius", "20px");
+  await expect(backCard).toHaveCSS("background-color", "rgb(39, 59, 90)");
+  await expect(backCard).toHaveCSS("border-radius", "20px");
+  await expect(frontCard.locator(".media-placeholder__cross")).toHaveCSS(
+    "display",
+    "none",
+  );
+  await expect(frontCard.locator(".media-placeholder__label")).toHaveCSS(
+    "display",
+    "none",
+  );
+
+  const [frontTransform, backTransform] = await Promise.all([
+    frontCard.evaluate((node) => getComputedStyle(node).transform),
+    backCard.evaluate((node) => getComputedStyle(node).transform),
+  ]);
+  expect(frontTransform).not.toBe("none");
+  expect(backTransform).not.toBe("none");
+  expect(frontTransform).not.toBe(backTransform);
+
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.reload();
+  await page.locator("#about").scrollIntoViewIfNeeded();
+  const mobileStack = page.locator(".about-section__portrait-stack");
+  const mobileFront = mobileStack.locator(".about-section__portrait");
+  const mobileBack = mobileStack.locator(".about-section__portrait-layer");
+  await expect(mobileStack).toHaveCSS("width", "220px");
+  await expect(mobileStack).toHaveCSS("height", "278px");
+  await expect(mobileFront).toHaveCSS("border-radius", "20px");
+  await expect(mobileBack).toHaveCSS("border-radius", "20px");
+  const mobileSizes = await page.evaluate(() => ({
+    client: document.documentElement.clientWidth,
+    scroll: document.documentElement.scrollWidth,
+  }));
+  expect(mobileSizes.scroll).toBe(mobileSizes.client);
+});
+
 test("mobile keeps equal project widths and hides the adidas hover arrow", async ({
   page,
 }) => {

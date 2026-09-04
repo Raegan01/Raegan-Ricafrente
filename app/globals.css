@@ -765,8 +765,8 @@ h3 {
 
 .about-section__portrait-stack {
   position: relative;
-  width: 320px;
-  height: 405px;
+  width: 270px;
+  height: 340px;
   margin: 52px 0 0 38px;
 }
 
@@ -777,16 +777,23 @@ h3 {
   height: auto;
   inset: 0;
   margin: 0;
-  border-radius: 34px 34px 96px 34px;
+  border-radius: 20px;
 }
 
 .about-section__portrait-layer {
-  background: #c8c8c3;
-  transform: rotate(7deg) translate(14px, 4px);
+  background: #273b5a;
+  transform: rotate(5deg) translate(22px, 8px);
 }
 
 .about-section__portrait {
-  transform: rotate(-3deg);
+  z-index: 1;
+  background: #3562ab;
+  transform: rotate(-2deg);
+}
+
+.about-section__portrait .media-placeholder__cross,
+.about-section__portrait .media-placeholder__label {
+  display: none;
 }
 
 .about-section__content {
@@ -1568,8 +1575,8 @@ h3 {
   }
 
   .about-section__portrait-stack {
-    width: 250px;
-    height: 315px;
+    width: 220px;
+    height: 278px;
     margin: 44px auto 72px;
   }
 
@@ -1577,6 +1584,7 @@ h3 {
     width: auto;
     height: auto;
     margin: 0;
+    border-radius: 20px;
   }
 
   .about-section__content {
