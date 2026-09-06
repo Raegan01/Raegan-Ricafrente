@@ -671,6 +671,7 @@ test("About portrait uses the supplied profile image inside the stacked-card fra
 
   const about = page.locator("#about");
   await about.scrollIntoViewIfNeeded();
+  await expect(about.getByRole("heading", { name: "Graphic Designer" })).toBeVisible();
   const stack = about.locator(".about-section__portrait-stack");
   const backCard = stack.locator(".about-section__portrait-layer");
   const frontCard = stack.locator(".about-section__portrait");

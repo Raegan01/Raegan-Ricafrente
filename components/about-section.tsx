@@ -26,7 +26,7 @@ export function AboutSection() {
         </div>
         <Reveal className="about-section__content">
           <h2 id="about-title">Hi, I&apos;m Raegan Ricafrente</h2>
-          <h3>Communication Designer</h3>
+          <h3>Graphic Designer</h3>
           <p className="about-section__copy">
             who blends logic with creativity to craft minimal, thoughtful work,
             with a strong foundation in typography, branding, and digital design.
