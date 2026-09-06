@@ -924,6 +924,22 @@ test("target desktop scroll states", async ({ page }) => {
   );
 });
 
+test("footer R stays centered at desktop and mobile widths", async ({ page }) => {
+  for (const viewport of [
+    { width: 2542, height: 1261 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const footer = page.locator("#contact");
+    await footer.scrollIntoViewIfNeeded();
+    const markBox = await footer.locator(".site-footer__mark").boundingBox();
+
+    expect(markBox).not.toBeNull();
+    expect(markBox!.x + markBox!.width / 2).toBeCloseTo(viewport.width / 2, 0);
+  }
+});
+
 test("reduced motion disables continuous landing-page motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
