@@ -924,6 +924,55 @@ test("target desktop scroll states", async ({ page }) => {
   );
 });
 
+test("reference footer uses full-width three-column geometry", async ({ page }) => {
+  const viewport = { width: 1277, height: 900 };
+  await page.setViewportSize(viewport);
+  await page.goto("/");
+  const footer = page.locator("#contact");
+  await footer.scrollIntoViewIfNeeded();
+
+  const gridBox = await footer.locator(".site-footer__grid").boundingBox();
+  const leadBox = await footer.locator("#contact-title").locator("..").boundingBox();
+  const asideBox = await footer.locator(".site-footer__aside").boundingBox();
+  const markBox = await footer.locator(".site-footer__mark").boundingBox();
+  const buttonBox = await footer.getByRole("link", { name: "Contact Me" }).boundingBox();
+  const emailBox = await footer
+    .getByRole("link", { name: "ananya.dezign@gmail.com" })
+    .boundingBox();
+  const socialBox = await footer.locator(".social-list a").first().boundingBox();
+
+  expect(gridBox).not.toBeNull();
+  expect(leadBox).not.toBeNull();
+  expect(asideBox).not.toBeNull();
+  expect(markBox).not.toBeNull();
+  expect(buttonBox).not.toBeNull();
+  expect(emailBox).not.toBeNull();
+  expect(socialBox).not.toBeNull();
+  expect(gridBox!.x).toBeCloseTo(0, 0);
+  expect(gridBox!.width).toBeCloseTo(viewport.width, 0);
+  expect(leadBox!.x).toBeCloseTo(10, 0);
+  expect(viewport.width - (asideBox!.x + asideBox!.width)).toBeCloseTo(10, 0);
+  expect(markBox!.x + markBox!.width / 2).toBeCloseTo(viewport.width / 2, 0);
+  expect(buttonBox!.width).toBeGreaterThanOrEqual(128);
+  expect(emailBox!.y + emailBox!.height).toBeLessThan(socialBox!.y);
+  expect(socialBox!.width).toBeCloseTo(48, 0);
+  expect(socialBox!.height).toBeCloseTo(48, 0);
+});
+
+test("reference footer social row uses recognizable brand icons", async ({ page }) => {
+  await page.setViewportSize({ width: 1277, height: 900 });
+  await page.goto("/");
+  const footer = page.locator("#contact");
+  await footer.scrollIntoViewIfNeeded();
+  const socialLinks = footer.locator(".social-list a");
+
+  await expect(socialLinks).toHaveCount(4);
+  await expect(socialLinks.nth(0).locator("svg")).toBeVisible();
+  await expect(socialLinks.nth(1)).toContainText("Bē");
+  await expect(socialLinks.nth(2).locator("svg")).toBeVisible();
+  await expect(socialLinks.nth(3).locator("svg")).toBeVisible();
+});
+
 test("footer R stays centered at desktop and mobile widths", async ({ page }) => {
   for (const viewport of [
     { width: 2542, height: 1261 },
