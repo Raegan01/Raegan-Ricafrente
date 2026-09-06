@@ -9,13 +9,15 @@ export function BrandMark({ inverted = false, className = "" }: BrandMarkProps) 
       aria-hidden="true"
       className={className}
       data-brand-letter="R"
+      data-brand-style="geometric"
       fill="none"
-      viewBox="0 0 52 50"
+      viewBox="0 0 100 100"
     >
-      <path
-        d="M0 5h10v44H0zM3 5h33v7H3zM10 12h30v8H10zM34 12h10v20H34zM10 27h30v8H10zM26 35h12v7H26zM33 40h12v7H33zM42 45h10v5H42z"
-        fill={inverted ? "#fff" : "currentColor"}
-      />
+      <g fill={inverted ? "#fff" : "currentColor"}>
+        <rect height="100" width="37.5" />
+        <circle cx="65" cy="27.5" r="27.5" />
+        <path d="M37.5 55H79L100 100H61Z" />
+      </g>
     </svg>
   );
 }
