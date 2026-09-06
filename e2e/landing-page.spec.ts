@@ -915,6 +915,9 @@ test("target desktop scroll states", async ({ page }) => {
   );
 
   await page.locator("#contact").scrollIntoViewIfNeeded();
+  const footerMark = page.locator("#contact .site-footer__mark");
+  await expect(footerMark).toHaveAttribute("data-brand-letter", "R");
+  await expect(footerMark).toHaveCSS("color", "rgb(229, 230, 231)");
   await expect(page.locator("#contact")).toHaveScreenshot(
     "target-desktop-footer.png",
     { animations: "disabled" },

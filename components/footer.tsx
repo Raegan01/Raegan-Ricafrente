@@ -1,3 +1,4 @@
+import { BrandMark } from "@/components/brand-mark";
 import { socials } from "@/data/site-content";
 
 export function Footer() {
@@ -34,9 +35,7 @@ export function Footer() {
             <a href="#contact">Contact</a>
           </nav>
         </div>
-        <span className="site-footer__mark" aria-hidden="true">
-          a.
-        </span>
+        <BrandMark className="site-footer__mark" />
       </div>
       <small>© 2026 Raegan Ricafrente. All rights reserved.</small>
     </footer>

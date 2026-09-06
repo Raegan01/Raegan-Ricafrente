@@ -931,11 +931,9 @@ h3 {
   position: absolute;
   right: 260px;
   bottom: -118px;
+  width: 420px;
+  height: 420px;
   color: #e5e6e7;
-  font-family: "IBM Plex Mono", monospace;
-  font-size: 420px;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .site-footer > small {
@@ -1626,7 +1624,8 @@ h3 {
     right: auto;
     bottom: -68px;
     left: 0;
-    font-size: 250px;
+    width: 250px;
+    height: 250px;
   }
 }
 
