@@ -880,7 +880,7 @@ h3 {
 .site-footer__grid {
   position: relative;
   display: grid;
-  min-height: 560px;
+  min-height: 678px;
   grid-template-columns: 1fr 210px;
   gap: 64px;
   padding-top: 52px;
@@ -930,7 +930,7 @@ h3 {
 .site-footer__mark {
   position: absolute;
   right: auto;
-  bottom: -118px;
+  bottom: 0;
   left: 50%;
   width: 420px;
   height: 420px;
@@ -1613,7 +1613,7 @@ h3 {
 
   .site-footer__grid {
     display: block;
-    min-height: 700px;
+    min-height: 768px;
     padding-top: 54px;
   }
 
@@ -1623,7 +1623,6 @@ h3 {
   }
 
   .site-footer__mark {
-    bottom: -68px;
     width: 250px;
     height: 250px;
   }

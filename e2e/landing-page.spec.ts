@@ -940,6 +940,26 @@ test("footer R stays centered at desktop and mobile widths", async ({ page }) =>
   }
 });
 
+test("footer R remains fully inside the footer grid", async ({ page }) => {
+  for (const viewport of [
+    { width: 2542, height: 1261 },
+    { width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.goto("/");
+    const footer = page.locator("#contact");
+    await footer.scrollIntoViewIfNeeded();
+    const gridBox = await footer.locator(".site-footer__grid").boundingBox();
+    const markBox = await footer.locator(".site-footer__mark").boundingBox();
+
+    expect(gridBox).not.toBeNull();
+    expect(markBox).not.toBeNull();
+    expect(markBox!.y + markBox!.height).toBeLessThanOrEqual(
+      gridBox!.y + gridBox!.height,
+    );
+  }
+});
+
 test("reduced motion disables continuous landing-page motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
