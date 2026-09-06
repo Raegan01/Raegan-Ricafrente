@@ -663,7 +663,7 @@ test("Bound & Beyond hover expands the right card with its editorial reveal", as
   await expect(arrow).toHaveCSS("opacity", "0");
 });
 
-test("About portrait placeholder matches the clean stacked-card reference", async ({
+test("About portrait uses the supplied profile image inside the stacked-card frame", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 2540, height: 1100 });
@@ -674,22 +674,23 @@ test("About portrait placeholder matches the clean stacked-card reference", asyn
   const stack = about.locator(".about-section__portrait-stack");
   const backCard = stack.locator(".about-section__portrait-layer");
   const frontCard = stack.locator(".about-section__portrait");
+  const portrait = frontCard.getByRole("img", {
+    name: "Portrait of Raegan Ricafrente",
+  });
 
   await expect(stack).toHaveCSS("width", "270px");
   await expect(stack).toHaveCSS("height", "340px");
+  await expect(portrait).toBeVisible();
+  await expect(portrait).toHaveAttribute("src", /profile2\.png/);
+  await expect(portrait).toHaveAttribute("loading", "eager");
+  await expect
+    .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
+    .toBeGreaterThan(0);
   await expect(frontCard).toHaveCSS("background-color", "rgb(53, 98, 171)");
   await expect(frontCard).toHaveCSS("background-image", "none");
   await expect(frontCard).toHaveCSS("border-radius", "20px");
   await expect(backCard).toHaveCSS("background-color", "rgb(39, 59, 90)");
   await expect(backCard).toHaveCSS("border-radius", "20px");
-  await expect(frontCard.locator(".media-placeholder__cross")).toHaveCSS(
-    "display",
-    "none",
-  );
-  await expect(frontCard.locator(".media-placeholder__label")).toHaveCSS(
-    "display",
-    "none",
-  );
 
   const [frontTransform, backTransform] = await Promise.all([
     frontCard.evaluate((node) => getComputedStyle(node).transform),

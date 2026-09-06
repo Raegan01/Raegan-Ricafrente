@@ -1,4 +1,5 @@
-import { MediaPlaceholder } from "@/components/media-placeholder";
+import Image from "next/image";
+
 import { Reveal } from "@/components/reveal";
 
 export function AboutSection() {
@@ -10,12 +11,16 @@ export function AboutSection() {
           <p className="about-section__kicker">Why Choose Me</p>
           <div className="about-section__portrait-stack">
             <span aria-hidden="true" className="about-section__portrait-layer" />
-            <MediaPlaceholder
-              className="about-section__portrait"
-              description="Future portrait illustration of Raegan Ricafrente"
-              kind="image"
-              label="PORTRAIT IMAGE"
-            />
+            <div className="about-section__portrait">
+              <Image
+                alt="Portrait of Raegan Ricafrente"
+                className="about-section__portrait-image"
+                fill
+                loading="eager"
+                sizes="(max-width: 809px) 220px, 270px"
+                src="/images/profile2.png"
+              />
+            </div>
           </div>
         </div>
         <Reveal className="about-section__content">
