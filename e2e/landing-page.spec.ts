@@ -686,6 +686,11 @@ test("About portrait uses the supplied profile image inside the stacked-card fra
   await expect
     .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
     .toBeGreaterThan(0);
+  const portraitScale = await portrait.evaluate((image) => {
+    const transform = new DOMMatrix(getComputedStyle(image).transform);
+    return transform.a;
+  });
+  expect(portraitScale).toBeLessThanOrEqual(1.25);
   await expect(frontCard).toHaveCSS("background-color", "rgb(53, 98, 171)");
   await expect(frontCard).toHaveCSS("background-image", "none");
   await expect(frontCard).toHaveCSS("border-radius", "20px");

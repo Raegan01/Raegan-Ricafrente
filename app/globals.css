@@ -796,7 +796,7 @@ h3 {
 .about-section__portrait-image {
   object-fit: cover;
   object-position: center bottom;
-  transform: scale(1.42);
+  transform: scale(1.25);
   transform-origin: center bottom;
   user-select: none;
 }
