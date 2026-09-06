@@ -681,11 +681,11 @@ test("About portrait uses the supplied profile image inside the stacked-card fra
   await expect(stack).toHaveCSS("width", "270px");
   await expect(stack).toHaveCSS("height", "340px");
   await expect(portrait).toBeVisible();
-  await expect(portrait).toHaveAttribute("src", /profile2\.png/);
+  await expect(portrait).toHaveAttribute("src", "/images/profile2.png");
   await expect(portrait).toHaveAttribute("loading", "eager");
   await expect
     .poll(() => portrait.evaluate((image) => (image as HTMLImageElement).naturalWidth))
-    .toBeGreaterThan(0);
+    .toBe(1024);
   const portraitScale = await portrait.evaluate((image) => {
     const transform = new DOMMatrix(getComputedStyle(image).transform);
     return transform.a;

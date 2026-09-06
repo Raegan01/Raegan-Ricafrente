@@ -19,6 +19,7 @@ export function AboutSection() {
                 loading="eager"
                 sizes="(max-width: 809px) 220px, 270px"
                 src="/images/profile2.png"
+                unoptimized
               />
             </div>
           </div>
