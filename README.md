@@ -1,4 +1,4 @@
-# Ananya Portfolio Landing Page
+# Raegan Portfolio Landing Page
 
 Single-page Next.js recreation of the Raegan Ricafrente portfolio homepage.
 
