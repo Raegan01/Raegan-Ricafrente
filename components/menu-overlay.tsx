@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 import { BrandMark } from "@/components/brand-mark";
@@ -11,6 +12,7 @@ type MenuOverlayProps = {
 };
 
 export function MenuOverlay({ onClose }: MenuOverlayProps) {
+  const reducedMotion = useReducedMotion();
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -57,10 +59,11 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
       aria-label="Site menu"
       aria-modal="true"
       className="menu-overlay"
-      initial={{ opacity: 0, y: -24 }}
+      initial={reducedMotion ? false : { opacity: 0, y: -32 }}
+      exit={{ opacity: 0, y: reducedMotion ? 0 : -20, transition: { duration: reducedMotion ? 0 : 0.28, ease: [0.4, 0, 1, 1] } }}
       ref={dialogRef}
       role="dialog"
-      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: reducedMotion ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
     >
       <div className="menu-overlay__header">
         <a className="menu-overlay__brand" href="#home" onClick={onClose}>
@@ -84,25 +87,32 @@ export function MenuOverlay({ onClose }: MenuOverlayProps) {
       </div>
 
       <div className="menu-overlay__contact">
-        <a href="mailto:ananya.dezign@gmail.com">ananya.dezign@gmail.com</a>
+        <a href="mailto:rae.ricafrente01@gmail.com">rae.ricafrente01@gmail.com</a>
         <a className="button button--light-outline" href={resumeHref} rel="noreferrer" target="_blank">
           View Resume <span className="button__dot" aria-hidden="true" />
         </a>
       </div>
 
       <nav className="menu-overlay__nav" aria-label="Primary">
-        {navigation.map((item) => (
-          <a href={item.href} key={item.label} onClick={onClose}>
+        {navigation.map((item, index) => (
+          <motion.a
+            href={item.href}
+            key={item.label}
+            onClick={onClose}
+            initial={reducedMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: reducedMotion ? 0 : 0.35, delay: reducedMotion ? 0 : 0.1 + index * 0.06, ease: [0.22, 1, 0.36, 1] }}
+          >
             {item.label}
-          </a>
+          </motion.a>
         ))}
       </nav>
 
       <ul className="menu-overlay__socials" aria-label="Menu social links">
         {socials.map((social) => (
           <li key={social.label}>
-            <a href={social.href} rel="noreferrer" target="_blank">
-              {social.label}
+            <a aria-label={social.label} href={social.href} rel="noreferrer" target="_blank">
+              <Image src={`/images/${social.label.toLowerCase()}-logo.png`} alt="" width={24} height={24} />
             </a>
           </li>
         ))}

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it } from "vitest";
 import { Header } from "@/components/header";
@@ -23,9 +23,9 @@ describe("Header menu", () => {
     expect(document.body.style.overflow).toBe("hidden");
 
     await user.keyboard("{Escape}");
-    expect(
+    await waitFor(() => expect(
       screen.queryByRole("dialog", { name: /site menu/i }),
-    ).not.toBeInTheDocument();
+    ).not.toBeInTheDocument());
     expect(trigger).toHaveFocus();
   });
 
@@ -44,7 +44,7 @@ describe("Header menu", () => {
     }
     expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
       "href",
-      expect.stringContaining("drive.google.com"),
+      "https://drive.google.com/file/d/11K_3589ND9PMwjK7l9KISZU0cQNubEe3/view?usp=sharing",
     );
 
     const projects = screen.getByRole("link", { name: "Projects" });
@@ -52,8 +52,8 @@ describe("Header menu", () => {
     expect(screen.queryByText("Side Quests")).not.toBeInTheDocument();
 
     await user.click(projects);
-    expect(
+    await waitFor(() => expect(
       screen.queryByRole("dialog", { name: /site menu/i }),
-    ).not.toBeInTheDocument();
+    ).not.toBeInTheDocument());
   });
 });

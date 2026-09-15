@@ -3,8 +3,8 @@ import { Reveal } from "@/components/reveal";
 
 export function Hero() {
   return (
-    <div className="hero-stage">
-      <section className="hero" id="home" aria-labelledby="hero-title">
+    <div className="hero-stage" id="home">
+      <section className="hero" aria-labelledby="hero-title">
         <div className="hero__grid" aria-hidden="true" />
         <div className="hero__canvas">
           <div className="hero__main">

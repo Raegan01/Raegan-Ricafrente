@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { AnimatePresence } from "motion/react";
 import { BrandMark } from "@/components/brand-mark";
 import { MenuOverlay } from "@/components/menu-overlay";
 
@@ -59,10 +60,9 @@ export function Header() {
     };
   }, []);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setOpen(false);
-    queueMicrotask(() => triggerRef.current?.focus());
-  };
+  }, []);
 
   return (
     <>
@@ -95,7 +95,9 @@ export function Header() {
           </button>
         </div>
       </header>
-      {open ? <MenuOverlay onClose={closeMenu} /> : null}
+      <AnimatePresence onExitComplete={() => triggerRef.current?.focus({ preventScroll: true })}>
+        {open ? <MenuOverlay key="site-menu" onClose={closeMenu} /> : null}
+      </AnimatePresence>
     </>
   );
 }

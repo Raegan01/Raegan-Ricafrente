@@ -1,4 +1,4 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { LandingPage } from "@/components/landing-page";
 
@@ -43,11 +43,11 @@ describe("LandingPage", () => {
         .map((item) => item.textContent)
         .slice(0, 5),
     ).toEqual([
-      "Spatial / Exhibition Design",
-      "Layout",
-      "Branding",
-      "3D",
-      "Publication",
+      "Adobe Photoshop",
+      "Adobe Illustrator",
+      "Figma",
+      "Canva",
+      "Brand Identity",
     ]);
     expect(ticker.querySelector('[aria-hidden="true"]')).toBeInTheDocument();
     expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
@@ -56,11 +56,11 @@ describe("LandingPage", () => {
     ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
       "href",
-      expect.stringContaining("drive.google.com"),
+      "https://drive.google.com/file/d/11K_3589ND9PMwjK7l9KISZU0cQNubEe3/view?usp=sharing",
     );
-    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
-      "href",
-      "mailto:ananya.dezign@gmail.com",
+    expect(screen.getByRole("button", { name: /say hello/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
     );
   });
 
@@ -74,18 +74,35 @@ describe("LandingPage", () => {
         (card) => within(card).getByRole("heading", { level: 3 }).textContent,
       ),
     ).toEqual([
-      "adidas x D.O.N.",
-      "Desk Mate",
-      "Ragas & Rhythms",
-      "Bound & Beyond",
+      "Brand Identity",
+      "Product Ads",
+      "Poster Design",
+      "Commissions",
     ]);
     expect(within(section).queryByRole("link")).not.toBeInTheDocument();
-    expect(within(section).queryByRole("button")).not.toBeInTheDocument();
+    expect(within(section).getByRole("button", { name: "Expand Brand Identity designs" })).toHaveAttribute("aria-expanded", "false");
     expect(screen.getByText("Hi, I'm Raegan Ricafrente")).toBeInTheDocument();
-    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
-      "href",
-      "mailto:ananya.dezign@gmail.com",
+    expect(screen.getByRole("button", { name: /say hello/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
     );
+  });
+
+  it("expands the three brand boards inline and collapses with Escape", () => {
+    render(<LandingPage />);
+    const toggle = screen.getByRole("button", { name: "Expand Brand Identity designs" });
+    expect(screen.queryByRole("region", { name: "Brand Identity designs" })).not.toBeInTheDocument();
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute("aria-expanded", "true");
+    const gallery = screen.getByRole("region", { name: "Brand Identity designs" });
+    expect(within(gallery).getAllByRole("img")).toHaveLength(3);
+    expect(within(gallery).getByText("FUR Bites")).toBeInTheDocument();
+    expect(within(gallery).getByText("Phoebe’s")).toBeInTheDocument();
+    expect(within(gallery).getByText("FinFin Ramen")).toBeInTheDocument();
+    fireEvent.keyDown(toggle, { key: "Escape" });
+    expect(toggle).toHaveAttribute("aria-expanded", "false");
+    expect(screen.queryByRole("region", { name: "Brand Identity designs" })).not.toBeInTheDocument();
+    expect(toggle).toHaveFocus();
   });
 
   it("orders projects, about, and contact like the recording", () => {
@@ -102,27 +119,35 @@ describe("LandingPage", () => {
     );
   });
 
+  it("shows only Upwork, OnlineJobs, and LinkedIn in the footer", () => {
+    render(<LandingPage />);
+    const socialLinks = within(screen.getByRole("list", { name: "Social links" }));
+    expect(socialLinks.getAllByRole("link").map(link => link.getAttribute("aria-label"))).toEqual([
+      "Upwork", "OnlineJobs", "LinkedIn",
+    ]);
+  });
+
   it("uses the visible email address as the mail target", () => {
     render(<LandingPage />);
     expect(
-      screen.getByRole("link", { name: /ananya\.dezign@gmail\.com/i }),
-    ).toHaveAttribute("href", "mailto:ananya.dezign@gmail.com");
+      screen.getByRole("link", { name: /rae\.ricafrente01@gmail\.com/i }),
+    ).toHaveAttribute("href", "mailto:rae.ricafrente01@gmail.com");
   });
 
-  it("keeps the resume and email CTAs without inner-page destinations", () => {
+  it("keeps the external resume link and offers an inline contact action", () => {
     render(<LandingPage />);
 
     expect(screen.getByRole("link", { name: /view resume/i })).toHaveAttribute(
       "href",
-      expect.stringContaining("drive.google.com"),
+      "https://drive.google.com/file/d/11K_3589ND9PMwjK7l9KISZU0cQNubEe3/view?usp=sharing",
     );
-    expect(screen.getByRole("link", { name: /say hello/i })).toHaveAttribute(
-      "href",
-      "mailto:ananya.dezign@gmail.com",
+    expect(screen.getByRole("button", { name: /say hello/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
     );
-    expect(screen.getByRole("link", { name: /contact me/i })).toHaveAttribute(
-      "href",
-      "mailto:ananya.dezign@gmail.com",
+    expect(screen.getByRole("button", { name: /contact me/i })).toHaveAttribute(
+      "aria-expanded",
+      "false",
     );
     expect(
       screen.queryByRole("link", { name: /learn more/i }),
@@ -139,7 +164,7 @@ describe("LandingPage", () => {
     expect(
       within(screen.getByRole("group", { name: /design disciplines/i }))
         .getAllByRole("listitem")
-        .filter((item) => item.textContent === "Motion Graphics"),
+        .filter((item) => item.textContent === "Layout"),
     ).toHaveLength(1);
     expect(screen.getByTestId("cursor-trail")).toHaveAttribute(
       "aria-hidden",

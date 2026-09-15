@@ -1,8 +1,14 @@
+"use client";
+
 import Image from "next/image";
 
+import { CtaPrelude } from "@/components/cta-prelude";
 import { Reveal } from "@/components/reveal";
 
-export function AboutSection() {
+export function AboutSection({ contactOpen, onSayHello }: {
+  contactOpen: boolean;
+  onSayHello: () => void;
+}) {
   return (
     <section className="about-section" id="about" aria-labelledby="about-title">
       <div className="section-canvas about-section__grid">
@@ -32,18 +38,19 @@ export function AboutSection() {
             Designer
           </h3>
           <p className="about-section__copy">
-            who blends logic with creativity to craft minimal, thoughtful work,
-            with a strong foundation in typography, branding, and digital design.
-            I enjoy building visual systems that feel clear, intentional, and
-            emotionally resonant, bringing a calm, research-first mindset to
-            every design challenge and a love for creating work that fosters
-            clarity and connection.
+            who creates clean, engaging visuals with a strong focus on layout,
+            typography, branding, and digital design. I enjoy turning ideas into
+            clear and polished visual systems, from brand identities and poster
+            designs to product ads and social creatives. My approach is thoughtful,
+            detail-focused, and driven by making every design feel purposeful,
+            consistent, and visually strong.
           </p>
-          <span className="button button--dark" aria-hidden="true">
-            Learn More
-          </span>
         </Reveal>
       </div>
+      <CtaPrelude
+        contactOpen={contactOpen}
+        onSayHello={onSayHello}
+      />
     </section>
   );
 }

@@ -3,14 +3,18 @@
 import { motion, useReducedMotion } from "motion/react";
 
 const displayOrder = [
-  "Spatial / Exhibition Design",
-  "Layout",
-  "Branding",
-  "3D",
-  "Publication",
-  "Packaging",
-  "Motion Graphics",
+  "Adobe Photoshop",
+  "Adobe Illustrator",
+  "Figma",
+  "Canva",
+  "Brand Identity",
+  "Poster Design",
+  "Static Ads",
+  "Logo",
+  "Mockups",
+  "Color Palette",
   "Typography",
+  "Layout",
 ] as const;
 
 export function DisciplineTicker() {

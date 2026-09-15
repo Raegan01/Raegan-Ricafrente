@@ -1,5 +1,17 @@
 import { expect, test, type Page } from "@playwright/test";
 
+async function footerLogoCenter(page: Page) {
+  return page.evaluate(() => {
+    if (innerWidth < 1420) return innerWidth / 2;
+    const range = document.createRange();
+    range.selectNodeContents(document.querySelector("#contact-title span")!);
+    const textRight = range.getBoundingClientRect().right;
+    const buttonLeft = document.querySelector(".site-footer__aside > .button")!
+      .getBoundingClientRect().left;
+    return (textRight + buttonLeft) / 2;
+  });
+}
+
 async function stabilizeForScreenshot(page: Page) {
   await page.addStyleTag({
     content: [
@@ -139,92 +151,24 @@ test("Projects divider pushes the header upward after contact and restores it on
   await expect(header).toHaveAttribute("data-projects-stuck", "false");
 });
 
-test("mobile Projects divider pushes and restores the header at the contact boundary", async ({
+test("mobile header stays at the top through Projects, About, and the footer", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
   const header = page.locator(".site-header");
-  const projects = page.locator("#projects");
-  const headerHeight = await header.evaluate(
-    (node) => node.getBoundingClientRect().height,
-  );
-  const projectsTop = await projects.evaluate((node) => {
-    const rect = node.getBoundingClientRect();
-    return rect.top + window.scrollY;
-  });
-
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight - 1,
-  );
-  await expect(header).toHaveAttribute("data-projects-stuck", "false");
-  await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await expect(header).toHaveCSS("border-bottom-color", "rgba(0, 0, 0, 0)");
-
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight,
-  );
-
-  await expect(header).toHaveAttribute("data-projects-stuck", "true");
-  await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
-  await expect(header).not.toHaveCSS(
-    "border-bottom-color",
-    "rgba(0, 0, 0, 0)",
-  );
-
-  const pushDistance = 40;
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight + pushDistance,
-  );
-  await expect
-    .poll(async () => (await header.boundingBox())?.y ?? 1)
-    .toBeCloseTo(-pushDistance, 0);
-  await expect
-    .poll(async () => {
-      const headerBox = await header.boundingBox();
-      const projectsBox = await projects.boundingBox();
-      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
-    })
-    .toBeCloseTo(0, 0);
-
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop + headerHeight + 50,
-  );
-  await expect
-    .poll(async () => (await header.boundingBox())?.y ?? 1)
-    .toBeCloseTo(-headerHeight, 0);
-
-  const reverseDistance = 24;
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight + reverseDistance,
-  );
-  await expect
-    .poll(async () => (await header.boundingBox())?.y ?? 1)
-    .toBeCloseTo(-reverseDistance, 0);
-  await expect
-    .poll(async () => {
-      const headerBox = await header.boundingBox();
-      const projectsBox = await projects.boundingBox();
-      return (headerBox?.y ?? 0) + (headerBox?.height ?? 0) - (projectsBox?.y ?? 0);
-    })
-    .toBeCloseTo(0, 0);
-
-  await page.evaluate(
-    (top) => window.scrollTo(0, top),
-    projectsTop - headerHeight - 1,
-  );
-  await expect
-    .poll(async () => (await header.boundingBox())?.y ?? 1)
-    .toBeCloseTo(0, 0);
-  await expect(header).toHaveAttribute("data-projects-stuck", "false");
-  await expect(header).toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
-  await expect(header).toHaveCSS("border-bottom-color", "rgba(0, 0, 0, 0)");
+  for (const selector of ["#projects", "#about", ".site-footer", "#home"]) {
+    await page.locator(selector).evaluate((node) => {
+      window.scrollTo({ top: node.getBoundingClientRect().top + window.scrollY, behavior: "instant" });
+    });
+    await expect.poll(async () => (await header.boundingBox())?.y ?? -1).toBeCloseTo(0, 0);
+    await expect(header).toHaveCSS("background-color", "rgb(255, 255, 255)");
+    await expect(page.getByRole("button", { name: "Open menu" })).toBeInViewport();
+  }
+  await page.locator(".site-footer").scrollIntoViewIfNeeded();
+  await page.getByRole("button", { name: "Open menu" }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
 });
 
 test("Projects menu link lands below the opaque sticky header", async ({
@@ -584,7 +528,7 @@ test("Ragas hover mirrors the editorial expansion within its own row", async ({
   await expect(arrow).toHaveCSS("opacity", "0");
 });
 
-test("Bound & Beyond hover expands the right card with its editorial reveal", async ({
+test("Commissions hover expands the right card with its editorial reveal", async ({
   page,
 }) => {
   await page.setViewportSize({ width: 2542, height: 1101 });
@@ -924,8 +868,8 @@ test("target desktop scroll states", async ({ page }) => {
   );
 });
 
-test("reference footer uses full-width three-column geometry", async ({ page }) => {
-  const viewport = { width: 1277, height: 900 };
+test("reference footer aligns with the centered page canvas", async ({ page }) => {
+  const viewport = { width: 2543, height: 1261 };
   await page.setViewportSize(viewport);
   await page.goto("/");
   const footer = page.locator("#contact");
@@ -937,7 +881,7 @@ test("reference footer uses full-width three-column geometry", async ({ page }) 
   const markBox = await footer.locator(".site-footer__mark").boundingBox();
   const buttonBox = await footer.getByRole("link", { name: "Contact Me" }).boundingBox();
   const emailBox = await footer
-    .getByRole("link", { name: "ananya.dezign@gmail.com" })
+    .getByRole("link", { name: "rae.ricafrente01@gmail.com" })
     .boundingBox();
   const socialBox = await footer.locator(".social-list a").first().boundingBox();
 
@@ -948,11 +892,15 @@ test("reference footer uses full-width three-column geometry", async ({ page }) 
   expect(buttonBox).not.toBeNull();
   expect(emailBox).not.toBeNull();
   expect(socialBox).not.toBeNull();
-  expect(gridBox!.x).toBeCloseTo(0, 0);
-  expect(gridBox!.width).toBeCloseTo(viewport.width, 0);
-  expect(leadBox!.x).toBeCloseTo(10, 0);
-  expect(viewport.width - (asideBox!.x + asideBox!.width)).toBeCloseTo(10, 0);
-  expect(markBox!.x + markBox!.width / 2).toBeCloseTo(viewport.width / 2, 0);
+  const canvasLeft = (viewport.width - 1320) / 2;
+  expect(gridBox!.x).toBeCloseTo(canvasLeft, 0);
+  expect(gridBox!.width).toBeCloseTo(1320, 0);
+  expect(leadBox!.x).toBeCloseTo(canvasLeft, 0);
+  expect(asideBox!.x + asideBox!.width).toBeCloseTo(canvasLeft + 1320, 0);
+  const copyrightBox = await footer.locator(":scope > small").boundingBox();
+  expect(copyrightBox!.x).toBeCloseTo(canvasLeft, 0);
+  expect(copyrightBox!.width).toBeCloseTo(1320, 0);
+  expect(markBox!.x + markBox!.width / 2).toBeCloseTo(await footerLogoCenter(page), 0);
   expect(buttonBox!.width).toBeGreaterThanOrEqual(128);
   expect(emailBox!.y + emailBox!.height).toBeLessThan(socialBox!.y);
   expect(socialBox!.width).toBeCloseTo(48, 0);
@@ -973,7 +921,7 @@ test("reference footer social row uses recognizable brand icons", async ({ page 
   await expect(socialLinks.nth(3).locator("svg")).toBeVisible();
 });
 
-test("footer R stays centered at desktop and mobile widths", async ({ page }) => {
+test("footer R balances the desktop text gap and stays centered on mobile", async ({ page }) => {
   for (const viewport of [
     { width: 2542, height: 1261 },
     { width: 390, height: 844 },
@@ -985,7 +933,7 @@ test("footer R stays centered at desktop and mobile widths", async ({ page }) =>
     const markBox = await footer.locator(".site-footer__mark").boundingBox();
 
     expect(markBox).not.toBeNull();
-    expect(markBox!.x + markBox!.width / 2).toBeCloseTo(viewport.width / 2, 0);
+    expect(markBox!.x + markBox!.width / 2).toBeCloseTo(await footerLogoCenter(page), 0);
   }
 });
 
